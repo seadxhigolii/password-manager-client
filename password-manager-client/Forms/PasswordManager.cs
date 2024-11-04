@@ -1,4 +1,4 @@
-namespace password_manager_client
+﻿namespace password_manager_client
 {
     public partial class Lockwise : Form
     {
