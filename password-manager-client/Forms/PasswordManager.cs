@@ -20,6 +20,7 @@ namespace password_manager_client
             userControl.Dock = DockStyle.None;
             userControl.Anchor = AnchorStyles.None;
 
+
             userControl.Left = (mainPanel.ClientSize.Width - userControl.Width) / 2;
             userControl.Top = (mainPanel.ClientSize.Height - userControl.Height) / 2;
         }
