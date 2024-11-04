@@ -47,8 +47,8 @@
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
-            panel2 = new Panel();
             panel3 = new Panel();
+            mainPanel = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -250,14 +250,6 @@
             groupBox3.TabIndex = 11;
             groupBox3.TabStop = false;
             // 
-            // panel2
-            // 
-            panel2.BackColor = Color.Gainsboro;
-            panel2.Location = new Point(427, 47);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(892, 710);
-            panel2.TabIndex = 12;
-            // 
             // panel3
             // 
             panel3.AutoScroll = true;
@@ -266,13 +258,21 @@
             panel3.Size = new Size(269, 691);
             panel3.TabIndex = 0;
             // 
+            // mainPanel
+            // 
+            mainPanel.BackColor = Color.Gainsboro;
+            mainPanel.Location = new Point(427, 47);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Size = new Size(892, 710);
+            mainPanel.TabIndex = 12;
+            // 
             // Lockwise
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1316, 753);
-            Controls.Add(panel2);
+            Controls.Add(mainPanel);
             Controls.Add(groupBox3);
             Controls.Add(groupBox1);
             Controls.Add(panel1);
@@ -317,7 +317,7 @@
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
-        private Panel panel2;
+        private Panel mainPanel;
         private Panel panel3;
     }
 }
