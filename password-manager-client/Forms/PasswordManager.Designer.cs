@@ -263,7 +263,7 @@
             mainPanel.BackColor = Color.Gainsboro;
             mainPanel.Location = new Point(427, 47);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(892, 710);
+            mainPanel.Size = new Size(892, 671);
             mainPanel.TabIndex = 12;
             // 
             // Lockwise

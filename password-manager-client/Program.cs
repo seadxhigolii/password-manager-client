@@ -1,3 +1,5 @@
+using password_manager_client.Forms;
+
 namespace password_manager_client
 {
     internal static class Program
