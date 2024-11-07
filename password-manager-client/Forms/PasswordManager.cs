@@ -15,8 +15,8 @@ namespace password_manager_client
             _passwordWebsite = new PasswordWebsite();
             InitializeComponent();
 
-            LoadUserControl(_passwordDetails, 30);
-            LoadUserControl(_passwordWebsite, 30 + _passwordDetails.Height + 20);
+            LoadUserControl(_passwordDetails, 50);
+            LoadUserControl(_passwordWebsite, 50 + _passwordDetails.Height + 20);
         }
 
         private void LoadUserControl(UserControl userControl, int topPosition)
