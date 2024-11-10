@@ -1,6 +1,6 @@
 ﻿namespace password_manager_client.UserControls.PasswordManagerForm.PasswordWebsite
 {
-    partial class PasswordWebsite
+    partial class PasswordWebsiteUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PasswordWebsite));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PasswordWebsiteUserControl));
             pictureBox3 = new PictureBox();
             pictureBox2 = new PictureBox();
             textBox3 = new TextBox();

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace password_manager_client.UserControls
 {
-    public partial class PasswordDetails : UserControl
+    public partial class PasswordDetailsUserControl : UserControl
     {
-        public PasswordDetails()
+        public PasswordDetailsUserControl()
         {
             InitializeComponent();
         }

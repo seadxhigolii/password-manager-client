@@ -6,13 +6,13 @@ namespace password_manager_client
 {
     public partial class Lockwise : Form
     {
-        private PasswordDetails _passwordDetails;
-        private PasswordWebsite _passwordWebsite;
+        private PasswordDetailsUserControl _passwordDetails;
+        private PasswordWebsiteUserControl _passwordWebsite;
 
         public Lockwise()
         {
-            _passwordDetails = new PasswordDetails();
-            _passwordWebsite = new PasswordWebsite();
+            _passwordDetails = new PasswordDetailsUserControl();
+            _passwordWebsite = new PasswordWebsiteUserControl();
             InitializeComponent();
 
             LoadUserControl(_passwordDetails, 50);

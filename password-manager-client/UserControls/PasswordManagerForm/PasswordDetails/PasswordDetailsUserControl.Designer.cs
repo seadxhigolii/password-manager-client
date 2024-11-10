@@ -1,6 +1,6 @@
 ﻿namespace password_manager_client.UserControls
 {
-    partial class PasswordDetails
+    partial class PasswordDetailsUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PasswordDetails));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PasswordDetailsUserControl));
             label1 = new Label();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
