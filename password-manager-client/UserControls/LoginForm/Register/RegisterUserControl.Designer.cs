@@ -20,6 +20,21 @@
             base.Dispose(disposing);
         }
 
+        #region Publicly Accessible Values
+        public string EmailInput
+        {
+            get { return email_input.Text; }
+        }
+        public string PasswordInput
+        {
+            get { return password_input.Text; }
+        }
+        public string RepeatPasswordInput
+        {
+            get { return repeat_password_input.Text; }
+        }
+        #endregion Publicly Accessible Values
+
         #region Component Designer generated code
 
         /// <summary> 
@@ -29,9 +44,9 @@
         private void InitializeComponent()
         {
             button1 = new Button();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            textBox3 = new TextBox();
+            repeat_password_input = new TextBox();
+            email_input = new TextBox();
+            password_input = new TextBox();
             SuspendLayout();
             // 
             // button1
@@ -44,39 +59,39 @@
             button1.Text = "Continue";
             button1.UseVisualStyleBackColor = true;
             // 
-            // textBox2
+            // repeat_password_input
             // 
-            textBox2.Location = new Point(3, 64);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Repeat Master Password";
-            textBox2.Size = new Size(184, 23);
-            textBox2.TabIndex = 12;
+            repeat_password_input.Location = new Point(3, 64);
+            repeat_password_input.Name = "repeat_password_input";
+            repeat_password_input.PlaceholderText = "Repeat Master Password";
+            repeat_password_input.Size = new Size(184, 23);
+            repeat_password_input.TabIndex = 12;
             // 
-            // textBox1
+            // email_input
             // 
-            textBox1.Location = new Point(3, 6);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Email address";
-            textBox1.Size = new Size(184, 23);
-            textBox1.TabIndex = 8;
+            email_input.Location = new Point(3, 6);
+            email_input.Name = "email_input";
+            email_input.PlaceholderText = "Email address";
+            email_input.Size = new Size(184, 23);
+            email_input.TabIndex = 8;
             // 
-            // textBox3
+            // password_input
             // 
-            textBox3.Location = new Point(3, 35);
-            textBox3.Name = "textBox3";
-            textBox3.PlaceholderText = "Master Password";
-            textBox3.Size = new Size(184, 23);
-            textBox3.TabIndex = 13;
+            password_input.Location = new Point(3, 35);
+            password_input.Name = "password_input";
+            password_input.PlaceholderText = "Master Password";
+            password_input.Size = new Size(184, 23);
+            password_input.TabIndex = 13;
             // 
-            // Register
+            // RegisterUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(textBox3);
+            Controls.Add(password_input);
             Controls.Add(button1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Name = "Register";
+            Controls.Add(repeat_password_input);
+            Controls.Add(email_input);
+            Name = "RegisterUserControl";
             Size = new Size(191, 141);
             ResumeLayout(false);
             PerformLayout();
@@ -85,8 +100,8 @@
         #endregion
 
         private Button button1;
-        private TextBox textBox2;
-        private TextBox textBox1;
-        private TextBox textBox3;
+        private TextBox repeat_password_input;
+        private TextBox email_input;
+        private TextBox password_input;
     }
 }
