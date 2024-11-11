@@ -6,21 +6,25 @@ using System.Text.Json;
 using System.Reactive.Linq;
 using password_manager_client.Services.Auth.Dto;
 using password_manager_client.Helpers.Decryption;
+using password_manager_client.Responses.Shared;
+using password_manager_client.Services.Shared;
+using System.Net.Http.Json;
+using System.Net.Http;
+using password_manager_client.Models;
 
 namespace password_manager_client.Services.Auth
 {
-    public class AuthService
+    public class AuthService : ApiService
     {
-        private readonly HttpClient _httpClient;
         private readonly BehaviorSubject<bool> _isAuthenticatedSubject = new(false);
         private string _authToken;
 
         public IObservable<bool> IsAuthenticatedObservable => _isAuthenticatedSubject.AsObservable();
+        public bool IsAuthenticated => !string.IsNullOrEmpty(_authToken);
 
-
-        public AuthService(string baseAddress)
+        public AuthService(HttpClient httpClient) : base(httpClient)
         {
-            _httpClient = new HttpClient { BaseAddress = new Uri(baseAddress) };
+            httpClient.BaseAddress = new Uri("https://localhost:7260");
         }
 
         public IObservable<bool> Login(LoginDto loginData)
@@ -37,26 +41,25 @@ namespace password_manager_client.Services.Auth
         {
             return Observable.FromAsync(() => RegisterAsync(registerData));
         }
-        public bool IsAuthenticated => !string.IsNullOrEmpty(_authToken);
-
-
 
         private async Task<bool> LoginAsync(LoginDto loginData)
         {
-            string json = JsonSerializer.Serialize(loginData);
+            string json = JsonSerializer.Serialize(loginData, Program.JsonOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.PostAsync("/api/Auth/Login", content);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<LoginResponse>(responseContent);
+                var result = await response.Content.ReadFromJsonAsync<LoginResponse>(Program.JsonOptions);
 
                 if (result != null)
                 {
                     _authToken = result.Token;
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authToken);
+
+                    Session.StartSession(result.UserId, _authToken);
+
                     return true;
                 }
             }
@@ -64,41 +67,39 @@ namespace password_manager_client.Services.Auth
             return false;
         }
 
-
-        private async Task<bool> RegisterAsync(RegisterDto registerData)
+        public async Task<bool> RegisterAsync(RegisterDto registerData)
         {
-            string json = JsonSerializer.Serialize(registerData);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await _httpClient.PostAsync("/api/Auth/Register", content);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<RegisterUserResponse>(responseContent);
+                string json = JsonSerializer.Serialize(registerData, Program.JsonOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                if (result != null)
+                HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Auth/Register", content);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    var encryptedPrivateKey = Convert.FromBase64String(result.EncryptedPrivateKey);
-                    var encryptedAESKey = Convert.FromBase64String(result.EncryptedAESKey);
-                    var salt = Convert.FromBase64String(result.Salt);
+                    var result = await response.Content.ReadFromJsonAsync<Response<RegisterUserResponse>>(Program.JsonOptions);
 
-                    var derivedKey = DecryptionHelper.DeriveKeyFromPassword(registerData.MasterPassword, salt);
+                    if (result?.Data != null)
+                    {
+                        var encryptedPrivateKey = Convert.FromBase64String(result.Data.EncryptedPrivateKey);
+                        var encryptedAESKey = Convert.FromBase64String(result.Data.EncryptedAESKey);
+                        var salt = Convert.FromBase64String(result.Data.Salt);
 
-                    var aesKey = DecryptionHelper.DecryptWithAES(encryptedAESKey, derivedKey);
-
-                    var privateKey = DecryptionHelper.DecryptWithAES(encryptedPrivateKey, aesKey);
-
-                    // Store or use the private key as needed
-                    // ...
-
-                    return true;
+                        var derivedKey = DecryptionHelper.DeriveKeyFromPassword(registerData.MasterPassword, salt);
+                        var aesKey = DecryptionHelper.DecryptWithAES(encryptedAESKey, derivedKey);
+                        var privateKey = DecryptionHelper.DecryptWithAES(encryptedPrivateKey, aesKey);
+                        return true;
+                    }
                 }
+
+                return false;
             }
-
-            return false;
+            catch (Exception e)
+            {
+                throw new Exception("Registration failed", e);
+            }
         }
-
 
         public void Logout()
         {
@@ -116,9 +117,7 @@ namespace password_manager_client.Services.Auth
 
             return Observable.FromAsync(async () =>
             {
-                HttpResponseMessage response = await _httpClient.GetAsync("/api/secure/data");
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsStringAsync();
+                return await GetDataAsync<string>("/api/secure/data"); // Using GetDataAsync from ApiService
             });
         }
     }

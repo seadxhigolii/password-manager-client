@@ -43,21 +43,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
             repeat_password_input = new TextBox();
             email_input = new TextBox();
             password_input = new TextBox();
             SuspendLayout();
-            // 
-            // button1
-            // 
-            button1.ForeColor = Color.Blue;
-            button1.Location = new Point(3, 109);
-            button1.Name = "button1";
-            button1.Size = new Size(184, 27);
-            button1.TabIndex = 9;
-            button1.Text = "Continue";
-            button1.UseVisualStyleBackColor = true;
             // 
             // repeat_password_input
             // 
@@ -88,11 +77,10 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(password_input);
-            Controls.Add(button1);
             Controls.Add(repeat_password_input);
             Controls.Add(email_input);
             Name = "RegisterUserControl";
-            Size = new Size(191, 141);
+            Size = new Size(191, 92);
             ResumeLayout(false);
             PerformLayout();
         }

@@ -14,14 +14,12 @@ namespace password_manager_client.Forms
         private UserControl activeUserControl;
         public LoginForm()
         {
-            _authService = new AuthService("https://localhost:7260");
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7260")
+            };
+            _authService = new AuthService(httpClient);
 
-            _authService.IsAuthenticatedObservable
-                .Subscribe(isAuthenticated =>
-                {
-                    // Update UI based on authentication state
-                    MessageBox.Show(isAuthenticated ? "Logged in!" : "Logged out");
-                });
             _loginUserControl = new LoginUserControl();
             _registerUserControl = new RegisterUserControl();
             InitializeComponent();
@@ -75,7 +73,7 @@ namespace password_manager_client.Forms
                     MasterPasswordRepeated = _registerUserControl.RepeatPasswordInput
                 };
 
-                _authService.Register(registerData);
+                _authService.RegisterAsync(registerData);
             }
         }
         private bool IsUserControlActive(UserControl userControl)
