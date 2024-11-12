@@ -51,16 +51,19 @@ namespace password_manager_client.Services.Auth
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<LoginResponse>(Program.JsonOptions);
+                var result = await response.Content.ReadFromJsonAsync<Response<LoginResponse>>(Program.JsonOptions);
 
-                if (result != null)
+                if (result != null && result.Data != null)
                 {
-                    _authToken = result.Token;
+                    _authToken = result.Data.AuthToken;
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authToken);
 
-                    Session.StartSession(result.UserId, _authToken, result.PrivateKey, result.Username);
+                    Session.StartSession(result.Data.UserId, _authToken, result.Data.PrivateKey, result.Data.Username);
 
-                    return true;
+                    if(Session.IsAuthenticated)
+                    {
+                        return true;
+                    }
                 }
             }
 

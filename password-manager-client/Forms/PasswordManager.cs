@@ -6,12 +6,12 @@ namespace password_manager_client
 {
     public partial class Lockwise : Form
     {
-        private PasswordDetailsUserControl _passwordDetails;
+        private ViewVaultUserControl _passwordDetails;
         private PasswordWebsiteUserControl _passwordWebsite;
 
         public Lockwise()
         {
-            _passwordDetails = new PasswordDetailsUserControl();
+            _passwordDetails = new ViewVaultUserControl();
             _passwordWebsite = new PasswordWebsiteUserControl();
             InitializeComponent();
 
@@ -30,5 +30,9 @@ namespace password_manager_client
             userControl.Top = topPosition;
         }
 
+        private void create_vault_button_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

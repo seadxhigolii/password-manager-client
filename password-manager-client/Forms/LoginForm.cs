@@ -59,7 +59,7 @@ namespace password_manager_client.Forms
             activeUserControl = _loginUserControl;
         }
 
-        private void continue_button_Click(object sender, EventArgs e)
+        private async void continue_button_Click(object sender, EventArgs e)
         {
             if (IsUserControlActive(_loginUserControl))
             {
@@ -69,7 +69,15 @@ namespace password_manager_client.Forms
                     Password = _loginUserControl.PasswordInput
                 };
 
-                _authService.LoginAsync(registerData);
+                var loginResult = await _authService.LoginAsync(registerData);
+
+                if (loginResult == true)
+                {
+                    var passwordManagerForm = new Lockwise();
+                    passwordManagerForm.Show();
+                    this.Hide();
+                    passwordManagerForm.FormClosed += (s, args) => Application.Exit();
+                }
             }
             else if (IsUserControlActive(_registerUserControl))
             {
@@ -80,7 +88,7 @@ namespace password_manager_client.Forms
                     MasterPasswordRepeated = _registerUserControl.RepeatPasswordInput
                 };
 
-                _authService.RegisterAsync(registerData);
+                var registerResult = await _authService.RegisterAsync(registerData);
             }
         }
         private bool IsUserControlActive(UserControl userControl)

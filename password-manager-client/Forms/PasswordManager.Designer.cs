@@ -48,8 +48,14 @@
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
             pictureBox7 = new PictureBox();
-            button1 = new Button();
+            create_vault_button = new Button();
             panel3 = new Panel();
+            label19 = new Label();
+            label20 = new Label();
+            pictureBox13 = new PictureBox();
+            label17 = new Label();
+            label18 = new Label();
+            pictureBox12 = new PictureBox();
             label16 = new Label();
             label15 = new Label();
             pictureBox11 = new PictureBox();
@@ -67,12 +73,6 @@
             pictureBox8 = new PictureBox();
             pictureBox9 = new PictureBox();
             pictureBox10 = new PictureBox();
-            label17 = new Label();
-            label18 = new Label();
-            pictureBox12 = new PictureBox();
-            label19 = new Label();
-            label20 = new Label();
-            pictureBox13 = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -85,13 +85,13 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox13).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox13).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -277,7 +277,7 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(pictureBox7);
-            groupBox3.Controls.Add(button1);
+            groupBox3.Controls.Add(create_vault_button);
             groupBox3.Controls.Add(panel3);
             groupBox3.Location = new Point(147, 47);
             groupBox3.Name = "groupBox3";
@@ -295,13 +295,14 @@
             pictureBox7.TabIndex = 0;
             pictureBox7.TabStop = false;
             // 
-            // button1
+            // create_vault_button
             // 
-            button1.Location = new Point(6, 667);
-            button1.Name = "button1";
-            button1.Size = new Size(269, 37);
-            button1.TabIndex = 13;
-            button1.UseVisualStyleBackColor = true;
+            create_vault_button.Location = new Point(6, 667);
+            create_vault_button.Name = "create_vault_button";
+            create_vault_button.Size = new Size(269, 37);
+            create_vault_button.TabIndex = 13;
+            create_vault_button.UseVisualStyleBackColor = true;
+            create_vault_button.Click += create_vault_button_Click;
             // 
             // panel3
             // 
@@ -319,6 +320,66 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(269, 642);
             panel3.TabIndex = 0;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label19.ForeColor = SystemColors.ControlDark;
+            label19.Location = new Point(28, 93);
+            label19.Name = "label19";
+            label19.Size = new Size(111, 13);
+            label19.TabIndex = 28;
+            label19.Text = "example@email.com";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new Point(28, 78);
+            label20.Name = "label20";
+            label20.Size = new Size(104, 15);
+            label20.TabIndex = 27;
+            label20.Text = "www.website.com";
+            // 
+            // pictureBox13
+            // 
+            pictureBox13.BackgroundImage = (Image)resources.GetObject("pictureBox13.BackgroundImage");
+            pictureBox13.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox13.Location = new Point(3, 84);
+            pictureBox13.Name = "pictureBox13";
+            pictureBox13.Size = new Size(20, 20);
+            pictureBox13.TabIndex = 26;
+            pictureBox13.TabStop = false;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.ForeColor = SystemColors.ControlDark;
+            label17.Location = new Point(28, 53);
+            label17.Name = "label17";
+            label17.Size = new Size(111, 13);
+            label17.TabIndex = 25;
+            label17.Text = "example@email.com";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(28, 38);
+            label18.Name = "label18";
+            label18.Size = new Size(104, 15);
+            label18.TabIndex = 24;
+            label18.Text = "www.website.com";
+            // 
+            // pictureBox12
+            // 
+            pictureBox12.BackgroundImage = (Image)resources.GetObject("pictureBox12.BackgroundImage");
+            pictureBox12.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox12.Location = new Point(3, 44);
+            pictureBox12.Name = "pictureBox12";
+            pictureBox12.Size = new Size(20, 20);
+            pictureBox12.TabIndex = 23;
+            pictureBox12.TabStop = false;
             // 
             // label16
             // 
@@ -493,66 +554,6 @@
             pictureBox10.TabIndex = 20;
             pictureBox10.TabStop = false;
             // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label17.ForeColor = SystemColors.ControlDark;
-            label17.Location = new Point(28, 53);
-            label17.Name = "label17";
-            label17.Size = new Size(111, 13);
-            label17.TabIndex = 25;
-            label17.Text = "example@email.com";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Location = new Point(28, 38);
-            label18.Name = "label18";
-            label18.Size = new Size(104, 15);
-            label18.TabIndex = 24;
-            label18.Text = "www.website.com";
-            // 
-            // pictureBox12
-            // 
-            pictureBox12.BackgroundImage = (Image)resources.GetObject("pictureBox12.BackgroundImage");
-            pictureBox12.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox12.Location = new Point(3, 44);
-            pictureBox12.Name = "pictureBox12";
-            pictureBox12.Size = new Size(20, 20);
-            pictureBox12.TabIndex = 23;
-            pictureBox12.TabStop = false;
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label19.ForeColor = SystemColors.ControlDark;
-            label19.Location = new Point(28, 93);
-            label19.Name = "label19";
-            label19.Size = new Size(111, 13);
-            label19.TabIndex = 28;
-            label19.Text = "example@email.com";
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Location = new Point(28, 78);
-            label20.Name = "label20";
-            label20.Size = new Size(104, 15);
-            label20.TabIndex = 27;
-            label20.Text = "www.website.com";
-            // 
-            // pictureBox13
-            // 
-            pictureBox13.BackgroundImage = (Image)resources.GetObject("pictureBox13.BackgroundImage");
-            pictureBox13.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox13.Location = new Point(3, 84);
-            pictureBox13.Name = "pictureBox13";
-            pictureBox13.Size = new Size(20, 20);
-            pictureBox13.TabIndex = 26;
-            pictureBox13.TabStop = false;
-            // 
             // Lockwise
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -590,14 +591,14 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox13).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox13).EndInit();
             ResumeLayout(false);
         }
 
@@ -623,7 +624,7 @@
         private GroupBox groupBox3;
         private Panel mainPanel;
         private Panel panel3;
-        private Button button1;
+        private Button create_vault_button;
         private PictureBox pictureBox7;
         private Button button2;
         private Button button3;
