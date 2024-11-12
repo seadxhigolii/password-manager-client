@@ -10,10 +10,5 @@ namespace password_manager_client.UserControls.LoginForm.Login
             _registerUserControl = new ruc.RegisterUserControl();
             InitializeComponent();
         }
-
-        private void create_account_button_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

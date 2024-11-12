@@ -20,6 +20,17 @@
             base.Dispose(disposing);
         }
 
+        #region Publicly Accessible Values
+        public string EmailInput
+        {
+            get { return login_email_input.Text; }
+        }
+        public string PasswordInput
+        {
+            get { return login_password_input.Text; }
+        }
+        #endregion Publicly Accessible Values
+
         #region Component Designer generated code
 
         /// <summary> 
@@ -28,32 +39,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox3 = new TextBox();
-            textBox1 = new TextBox();
+            login_password_input = new TextBox();
+            login_email_input = new TextBox();
             SuspendLayout();
             // 
-            // textBox3
+            // login_password_input
             // 
-            textBox3.Location = new Point(3, 32);
-            textBox3.Name = "textBox3";
-            textBox3.PlaceholderText = "Master Password";
-            textBox3.Size = new Size(184, 23);
-            textBox3.TabIndex = 17;
+            login_password_input.Location = new Point(3, 32);
+            login_password_input.Name = "login_password_input";
+            login_password_input.PlaceholderText = "Master Password";
+            login_password_input.Size = new Size(184, 23);
+            login_password_input.TabIndex = 17;
             // 
-            // textBox1
+            // login_email_input
             // 
-            textBox1.Location = new Point(3, 3);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Email address";
-            textBox1.Size = new Size(184, 23);
-            textBox1.TabIndex = 14;
+            login_email_input.Location = new Point(3, 3);
+            login_email_input.Name = "login_email_input";
+            login_email_input.PlaceholderText = "Email address";
+            login_email_input.Size = new Size(184, 23);
+            login_email_input.TabIndex = 14;
             // 
             // LoginUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(textBox3);
-            Controls.Add(textBox1);
+            Controls.Add(login_password_input);
+            Controls.Add(login_email_input);
             Name = "LoginUserControl";
             Size = new Size(192, 59);
             ResumeLayout(false);
@@ -62,7 +73,7 @@
 
         #endregion
 
-        private TextBox textBox3;
-        private TextBox textBox1;
+        private TextBox login_password_input;
+        private TextBox login_email_input;
     }
 }

@@ -42,12 +42,12 @@ namespace password_manager_client.Services.Auth
             return Observable.FromAsync(() => RegisterAsync(registerData));
         }
 
-        private async Task<bool> LoginAsync(LoginDto loginData)
+        public async Task<bool> LoginAsync(LoginDto loginData)
         {
             string json = JsonSerializer.Serialize(loginData, Program.JsonOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync("/api/Auth/Login", content);
+            HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Auth/Login", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -58,7 +58,7 @@ namespace password_manager_client.Services.Auth
                     _authToken = result.Token;
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authToken);
 
-                    Session.StartSession(result.UserId, _authToken);
+                    Session.StartSession(result.UserId, _authToken, result.PrivateKey, result.Username);
 
                     return true;
                 }

@@ -7,7 +7,7 @@
         public static string? PrivateKey { get; private set; }
         public static string? Username { get; private set; }
 
-        public static bool IsAuthenticated => !string.IsNullOrEmpty(UserId.ToString()) && !string.IsNullOrEmpty(AuthToken) && !string.IsNullOrEmpty(PrivateKey) && !string.IsNullOrEmpty();
+        public static bool IsAuthenticated => !string.IsNullOrEmpty(UserId.ToString()) && !string.IsNullOrEmpty(AuthToken) && !string.IsNullOrEmpty(PrivateKey) && !string.IsNullOrEmpty(Username);
 
         public static void StartSession(Guid userId, string authToken, string privateKey, string username)
         {

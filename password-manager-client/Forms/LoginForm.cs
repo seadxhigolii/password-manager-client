@@ -46,6 +46,7 @@ namespace password_manager_client.Forms
 
             userControl.Left = (login_panel.ClientSize.Width - userControl.Width) / 2;
             userControl.Top = topPosition;
+            activeUserControl = _loginUserControl;
         }
 
         private void back_button_Click(object sender, EventArgs e)
@@ -62,7 +63,13 @@ namespace password_manager_client.Forms
         {
             if (IsUserControlActive(_loginUserControl))
             {
+                var registerData = new LoginDto
+                {
+                    Username = _loginUserControl.EmailInput,
+                    Password = _loginUserControl.PasswordInput
+                };
 
+                _authService.LoginAsync(registerData);
             }
             else if (IsUserControlActive(_registerUserControl))
             {
