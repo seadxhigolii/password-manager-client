@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace password_manager_client.UserControls.PasswordManagerForm.PasswordWebsite
+namespace password_manager_client.UserControls.PasswordManagerForm.Vault.Edit
 {
-    public partial class PasswordWebsiteUserControl : UserControl
+    public partial class EditVaultWebsiteUserControl : UserControl
     {
-        public PasswordWebsiteUserControl()
+        public EditVaultWebsiteUserControl()
         {
             InitializeComponent();
         }

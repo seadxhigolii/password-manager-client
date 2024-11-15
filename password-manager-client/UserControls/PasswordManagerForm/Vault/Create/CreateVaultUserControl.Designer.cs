@@ -39,6 +39,8 @@
             name_input = new TextBox();
             label1 = new Label();
             pictureBox4 = new PictureBox();
+            vault_type_dropdown = new ComboBox();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -136,11 +138,34 @@
             pictureBox4.TabIndex = 18;
             pictureBox4.TabStop = false;
             // 
+            // vault_type_dropdown
+            // 
+            vault_type_dropdown.FormattingEnabled = true;
+            vault_type_dropdown.Items.AddRange(new object[] { "Login", "Secure Note" });
+            vault_type_dropdown.Location = new Point(18, 30);
+            vault_type_dropdown.Name = "vault_type_dropdown";
+            vault_type_dropdown.Size = new Size(485, 23);
+            vault_type_dropdown.TabIndex = 19;
+            vault_type_dropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = SystemColors.ControlDarkDark;
+            label4.Location = new Point(18, 8);
+            label4.Name = "label4";
+            label4.Size = new Size(32, 15);
+            label4.TabIndex = 20;
+            label4.Text = "Type";
+            // 
             // CreateVaultUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(label4);
+            Controls.Add(vault_type_dropdown);
             Controls.Add(pictureBox4);
             Controls.Add(pictureBox3);
             Controls.Add(pictureBox2);
@@ -163,6 +188,22 @@
 
         #endregion
 
+        #region Publicly Accessible Values
+        public string NameInput
+        {
+            get { return name_input.Text; }
+        }
+        public string UsernameInput
+        {
+            get { return username_input.Text; }
+        }
+        public string PasswordInput
+        {
+            get { return password_input.Text; }
+        }
+
+        #endregion Publicly Accessible Elements
+
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
@@ -173,5 +214,7 @@
         private TextBox name_input;
         private Label label1;
         private PictureBox pictureBox4;
+        private ComboBox vault_type_dropdown;
+        private Label label4;
     }
 }

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using password_manager_client.Middlewares;
 
 namespace password_manager_client
 {
@@ -36,6 +37,7 @@ namespace password_manager_client
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
 
             ApplicationConfiguration.Initialize();
             Application.Run(new LoginForm());

@@ -60,19 +60,23 @@
             label15 = new Label();
             pictureBox11 = new PictureBox();
             mainPanel = new Panel();
-            label13 = new Label();
-            label14 = new Label();
+            last_updated_groupbox = new GroupBox();
             label11 = new Label();
-            label12 = new Label();
-            label10 = new Label();
+            label13 = new Label();
             label9 = new Label();
-            label8 = new Label();
-            button2 = new Button();
-            button3 = new Button();
+            label14 = new Label();
+            label10 = new Label();
+            label12 = new Label();
+            item_information_label = new Label();
+            edit_button = new Button();
+            duplicate_button = new Button();
             button4 = new Button();
-            pictureBox8 = new PictureBox();
-            pictureBox9 = new PictureBox();
+            edit_icon = new PictureBox();
+            duplicate_icon = new PictureBox();
             pictureBox10 = new PictureBox();
+            save_icon = new PictureBox();
+            save_button = new Button();
+            cancel_button = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -89,9 +93,11 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
             mainPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
+            last_updated_groupbox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)edit_icon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)duplicate_icon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)save_icon).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -414,107 +420,116 @@
             // mainPanel
             // 
             mainPanel.BackColor = Color.Gainsboro;
-            mainPanel.Controls.Add(label13);
-            mainPanel.Controls.Add(label14);
-            mainPanel.Controls.Add(label11);
-            mainPanel.Controls.Add(label12);
-            mainPanel.Controls.Add(label10);
-            mainPanel.Controls.Add(label9);
-            mainPanel.Controls.Add(label8);
+            mainPanel.Controls.Add(last_updated_groupbox);
+            mainPanel.Controls.Add(item_information_label);
             mainPanel.Location = new Point(427, 47);
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(892, 661);
             mainPanel.TabIndex = 12;
             // 
-            // label13
+            // last_updated_groupbox
             // 
-            label13.AutoSize = true;
-            label13.ForeColor = SystemColors.ControlDarkDark;
-            label13.Location = new Point(294, 421);
-            label13.Name = "label13";
-            label13.Size = new Size(13, 15);
-            label13.TabIndex = 6;
-            label13.Text = "2";
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = SystemColors.ControlDarkDark;
-            label14.Location = new Point(192, 421);
-            label14.Name = "label14";
-            label14.Size = new Size(103, 15);
-            label14.TabIndex = 5;
-            label14.Text = "Password history:";
+            last_updated_groupbox.Controls.Add(label11);
+            last_updated_groupbox.Controls.Add(label13);
+            last_updated_groupbox.Controls.Add(label9);
+            last_updated_groupbox.Controls.Add(label14);
+            last_updated_groupbox.Controls.Add(label10);
+            last_updated_groupbox.Controls.Add(label12);
+            last_updated_groupbox.Location = new Point(192, 396);
+            last_updated_groupbox.Name = "last_updated_groupbox";
+            last_updated_groupbox.Size = new Size(206, 62);
+            last_updated_groupbox.TabIndex = 7;
+            last_updated_groupbox.TabStop = false;
             // 
             // label11
             // 
             label11.AutoSize = true;
             label11.ForeColor = SystemColors.ControlDarkDark;
-            label11.Location = new Point(249, 404);
+            label11.Location = new Point(59, 25);
             label11.Name = "label11";
             label11.Size = new Size(141, 15);
             label11.TabIndex = 4;
             label11.Text = "Feb 19, 2024, 11:59:00 AM";
             // 
-            // label12
+            // label13
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = SystemColors.ControlDarkDark;
-            label12.Location = new Point(192, 404);
-            label12.Name = "label12";
-            label12.Size = new Size(54, 15);
-            label12.TabIndex = 3;
-            label12.Text = "Created:";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.ForeColor = SystemColors.ControlDarkDark;
-            label10.Location = new Point(249, 387);
-            label10.Name = "label10";
-            label10.Size = new Size(133, 15);
-            label10.TabIndex = 2;
-            label10.Text = "Jun 14, 2024, 7:18:34 PM";
+            label13.AutoSize = true;
+            label13.ForeColor = SystemColors.ControlDarkDark;
+            label13.Location = new Point(104, 42);
+            label13.Name = "label13";
+            label13.Size = new Size(13, 15);
+            label13.TabIndex = 6;
+            label13.Text = "2";
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.ForeColor = SystemColors.ControlDarkDark;
-            label9.Location = new Point(192, 387);
+            label9.Location = new Point(2, 8);
             label9.Name = "label9";
             label9.Size = new Size(58, 15);
             label9.TabIndex = 1;
             label9.Text = "Updated:";
             // 
-            // label8
+            // label14
             // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = SystemColors.ControlDarkDark;
-            label8.Location = new Point(192, 18);
-            label8.Name = "label8";
-            label8.Size = new Size(161, 21);
-            label8.TabIndex = 0;
-            label8.Text = "ITEM INFORMATION";
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label14.ForeColor = SystemColors.ControlDarkDark;
+            label14.Location = new Point(2, 42);
+            label14.Name = "label14";
+            label14.Size = new Size(103, 15);
+            label14.TabIndex = 5;
+            label14.Text = "Password history:";
             // 
-            // button2
+            // label10
             // 
-            button2.Location = new Point(434, 714);
-            button2.Name = "button2";
-            button2.Size = new Size(62, 37);
-            button2.TabIndex = 15;
-            button2.UseVisualStyleBackColor = true;
+            label10.AutoSize = true;
+            label10.ForeColor = SystemColors.ControlDarkDark;
+            label10.Location = new Point(59, 8);
+            label10.Name = "label10";
+            label10.Size = new Size(133, 15);
+            label10.TabIndex = 2;
+            label10.Text = "Jun 14, 2024, 7:18:34 PM";
             // 
-            // button3
+            // label12
             // 
-            button3.Location = new Point(502, 714);
-            button3.Name = "button3";
-            button3.Size = new Size(62, 37);
-            button3.TabIndex = 16;
-            button3.UseVisualStyleBackColor = true;
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.ForeColor = SystemColors.ControlDarkDark;
+            label12.Location = new Point(2, 25);
+            label12.Name = "label12";
+            label12.Size = new Size(54, 15);
+            label12.TabIndex = 3;
+            label12.Text = "Created:";
+            // 
+            // item_information_label
+            // 
+            item_information_label.AutoSize = true;
+            item_information_label.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            item_information_label.ForeColor = SystemColors.ControlDarkDark;
+            item_information_label.Location = new Point(192, 18);
+            item_information_label.Name = "item_information_label";
+            item_information_label.Size = new Size(161, 21);
+            item_information_label.TabIndex = 0;
+            item_information_label.Text = "ITEM INFORMATION";
+            // 
+            // edit_button
+            // 
+            edit_button.Location = new Point(434, 714);
+            edit_button.Name = "edit_button";
+            edit_button.Size = new Size(62, 37);
+            edit_button.TabIndex = 15;
+            edit_button.UseVisualStyleBackColor = true;
+            // 
+            // duplicate_button
+            // 
+            duplicate_button.Location = new Point(502, 714);
+            duplicate_button.Name = "duplicate_button";
+            duplicate_button.Size = new Size(62, 37);
+            duplicate_button.TabIndex = 16;
+            duplicate_button.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
@@ -524,25 +539,25 @@
             button4.TabIndex = 17;
             button4.UseVisualStyleBackColor = true;
             // 
-            // pictureBox8
+            // edit_icon
             // 
-            pictureBox8.BackgroundImage = (Image)resources.GetObject("pictureBox8.BackgroundImage");
-            pictureBox8.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox8.Location = new Point(458, 725);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(15, 15);
-            pictureBox8.TabIndex = 18;
-            pictureBox8.TabStop = false;
+            edit_icon.BackgroundImage = (Image)resources.GetObject("edit_icon.BackgroundImage");
+            edit_icon.BackgroundImageLayout = ImageLayout.Stretch;
+            edit_icon.Location = new Point(458, 725);
+            edit_icon.Name = "edit_icon";
+            edit_icon.Size = new Size(15, 15);
+            edit_icon.TabIndex = 18;
+            edit_icon.TabStop = false;
             // 
-            // pictureBox9
+            // duplicate_icon
             // 
-            pictureBox9.BackgroundImage = (Image)resources.GetObject("pictureBox9.BackgroundImage");
-            pictureBox9.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox9.Location = new Point(523, 725);
-            pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(15, 15);
-            pictureBox9.TabIndex = 19;
-            pictureBox9.TabStop = false;
+            duplicate_icon.BackgroundImage = (Image)resources.GetObject("duplicate_icon.BackgroundImage");
+            duplicate_icon.BackgroundImageLayout = ImageLayout.Stretch;
+            duplicate_icon.Location = new Point(523, 725);
+            duplicate_icon.Name = "duplicate_icon";
+            duplicate_icon.Size = new Size(15, 15);
+            duplicate_icon.TabIndex = 19;
+            duplicate_icon.TabStop = false;
             // 
             // pictureBox10
             // 
@@ -554,19 +569,50 @@
             pictureBox10.TabIndex = 20;
             pictureBox10.TabStop = false;
             // 
+            // save_icon
+            // 
+            save_icon.BackgroundImage = (Image)resources.GetObject("save_icon.BackgroundImage");
+            save_icon.BackgroundImageLayout = ImageLayout.Stretch;
+            save_icon.Location = new Point(594, 725);
+            save_icon.Name = "save_icon";
+            save_icon.Size = new Size(15, 15);
+            save_icon.TabIndex = 22;
+            save_icon.TabStop = false;
+            // 
+            // save_button
+            // 
+            save_button.Location = new Point(570, 714);
+            save_button.Name = "save_button";
+            save_button.Size = new Size(62, 37);
+            save_button.TabIndex = 21;
+            save_button.UseVisualStyleBackColor = true;
+            save_button.Click += save_button_Click;
+            // 
+            // cancel_button
+            // 
+            cancel_button.Location = new Point(638, 714);
+            cancel_button.Name = "cancel_button";
+            cancel_button.Size = new Size(74, 37);
+            cancel_button.TabIndex = 23;
+            cancel_button.Text = "Cancel";
+            cancel_button.UseVisualStyleBackColor = true;
+            // 
             // Lockwise
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1316, 753);
+            Controls.Add(cancel_button);
+            Controls.Add(save_icon);
+            Controls.Add(save_button);
             Controls.Add(pictureBox10);
-            Controls.Add(pictureBox9);
-            Controls.Add(pictureBox8);
+            Controls.Add(duplicate_icon);
+            Controls.Add(edit_icon);
             Controls.Add(button4);
-            Controls.Add(button3);
+            Controls.Add(duplicate_button);
             Controls.Add(mainPanel);
-            Controls.Add(button2);
+            Controls.Add(edit_button);
             Controls.Add(groupBox3);
             Controls.Add(groupBox1);
             Controls.Add(panel1);
@@ -596,9 +642,12 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
+            last_updated_groupbox.ResumeLayout(false);
+            last_updated_groupbox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)edit_icon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)duplicate_icon).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
+            ((System.ComponentModel.ISupportInitialize)save_icon).EndInit();
             ResumeLayout(false);
         }
 
@@ -626,13 +675,13 @@
         private Panel panel3;
         private Button create_vault_button;
         private PictureBox pictureBox7;
-        private Button button2;
-        private Button button3;
+        private Button edit_button;
+        private Button duplicate_button;
         private Button button4;
-        private PictureBox pictureBox8;
-        private PictureBox pictureBox9;
+        private PictureBox edit_icon;
+        private PictureBox duplicate_icon;
         private PictureBox pictureBox10;
-        private Label label8;
+        private Label item_information_label;
         private Label label9;
         private Label label10;
         private Label label11;
@@ -648,5 +697,9 @@
         private Label label17;
         private Label label18;
         private PictureBox pictureBox12;
+        private GroupBox last_updated_groupbox;
+        private PictureBox save_icon;
+        private Button save_button;
+        private Button cancel_button;
     }
 }

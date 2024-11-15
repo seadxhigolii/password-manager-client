@@ -11,13 +11,10 @@ namespace password_manager_client.Forms
         private readonly AuthService _authService;
         private LoginUserControl _loginUserControl;
         private RegisterUserControl _registerUserControl;
-        private UserControl activeUserControl;
+        private UserControl _activeUserControl;
         public LoginForm()
         {
-            var httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://localhost:7260")
-            };
+            var httpClient = new HttpClient();
             _authService = new AuthService(httpClient);
 
             _loginUserControl = new LoginUserControl();
@@ -34,7 +31,7 @@ namespace password_manager_client.Forms
             back_button.Location = new Point(new_around_here_label.Location.X + 38, new_around_here_label.Location.Y); ;
             create_account_button.Visible = false;
             new_around_here_label.Visible = false;
-            activeUserControl = _registerUserControl;
+            _activeUserControl = _registerUserControl;
         }
 
         private void LoadUserControl(UserControl userControl, int topPosition)
@@ -46,7 +43,7 @@ namespace password_manager_client.Forms
 
             userControl.Left = (login_panel.ClientSize.Width - userControl.Width) / 2;
             userControl.Top = topPosition;
-            activeUserControl = _loginUserControl;
+            _activeUserControl = _loginUserControl;
         }
 
         private void back_button_Click(object sender, EventArgs e)
@@ -56,7 +53,7 @@ namespace password_manager_client.Forms
             back_button.Visible = false;
             create_account_button.Visible = true;
             new_around_here_label.Visible = true;
-            activeUserControl = _loginUserControl;
+            _activeUserControl = _loginUserControl;
         }
 
         private async void continue_button_Click(object sender, EventArgs e)
@@ -93,7 +90,7 @@ namespace password_manager_client.Forms
         }
         private bool IsUserControlActive(UserControl userControl)
         {
-            return activeUserControl == userControl;
+            return _activeUserControl == userControl;
         }
     }
 }

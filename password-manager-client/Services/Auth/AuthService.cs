@@ -1,45 +1,20 @@
 ﻿using password_manager_client.Responses.Auth;
 using System.Net.Http.Headers;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Text.Json;
-using System.Reactive.Linq;
 using password_manager_client.Services.Auth.Dto;
 using password_manager_client.Helpers.Decryption;
 using password_manager_client.Responses.Shared;
 using password_manager_client.Services.Shared;
 using System.Net.Http.Json;
-using System.Net.Http;
-using password_manager_client.Models;
+using password_manager_client.Helpers;
 
 namespace password_manager_client.Services.Auth
 {
     public class AuthService : ApiService
     {
-        private readonly BehaviorSubject<bool> _isAuthenticatedSubject = new(false);
-        private string _authToken;
-
-        public IObservable<bool> IsAuthenticatedObservable => _isAuthenticatedSubject.AsObservable();
-        public bool IsAuthenticated => !string.IsNullOrEmpty(_authToken);
-
-        public AuthService(HttpClient httpClient) : base(httpClient)
+        public AuthService(HttpClient httpClient) : base(httpClient) 
         {
-            httpClient.BaseAddress = new Uri("https://localhost:7260");
-        }
-
-        public IObservable<bool> Login(LoginDto loginData)
-        {
-            return Observable.FromAsync(() => LoginAsync(loginData))
-                             .Retry(3)
-                             .Do(isAuthenticated =>
-                             {
-                                 _isAuthenticatedSubject.OnNext(isAuthenticated);
-                             });
-        }
-
-        public IObservable<bool> Register(RegisterDto registerData)
-        {
-            return Observable.FromAsync(() => RegisterAsync(registerData));
         }
 
         public async Task<bool> LoginAsync(LoginDto loginData)
@@ -55,10 +30,9 @@ namespace password_manager_client.Services.Auth
 
                 if (result != null && result.Data != null)
                 {
-                    _authToken = result.Data.AuthToken;
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authToken);
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", result.Data.AuthToken);
 
-                    Session.StartSession(result.Data.UserId, _authToken, result.Data.PrivateKey, result.Data.Username);
+                    Session.StartSession(result.Data.UserId, result.Data.AuthToken, result.Data.PrivateKey, result.Data.PublicKey, result.Data.Username);
 
                     if(Session.IsAuthenticated)
                     {
@@ -106,22 +80,7 @@ namespace password_manager_client.Services.Auth
 
         public void Logout()
         {
-            _authToken = null;
-            _httpClient.DefaultRequestHeaders.Authorization = null;
-            _isAuthenticatedSubject.OnNext(false);
-        }
-
-        public IObservable<string> GetSecureData()
-        {
-            if (string.IsNullOrEmpty(_authToken))
-            {
-                return Observable.Throw<string>(new InvalidOperationException("User is not authenticated."));
-            }
-
-            return Observable.FromAsync(async () =>
-            {
-                return await GetDataAsync<string>("/api/secure/data"); // Using GetDataAsync from ApiService
-            });
+            Session.EndSession();
         }
     }
 }

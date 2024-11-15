@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http;
+using System.Text.Json;
 
 namespace password_manager_client.Services.Shared
 {
@@ -9,15 +10,7 @@ namespace password_manager_client.Services.Shared
         public ApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-        }
-
-        public async Task<T> GetDataAsync<T>(string endpoint)
-        {
-            var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(responseContent, Program.JsonOptions);
+            httpClient.BaseAddress = new Uri("https://localhost:7260");
         }
     }
 }
