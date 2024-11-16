@@ -20,6 +20,13 @@
             base.Dispose(disposing);
         }
 
+        #region Publicly Accessible Elements
+        public string WebsiteInput
+        {
+            get { return website_input.Text; }
+        }
+        #endregion 
+
         #region Component Designer generated code
 
         /// <summary> 
@@ -28,18 +35,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox3 = new TextBox();
+            website_input = new TextBox();
             label3 = new Label();
             SuspendLayout();
             // 
-            // textBox3
+            // website_input
             // 
-            textBox3.Enabled = false;
-            textBox3.Location = new Point(18, 34);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(481, 23);
-            textBox3.TabIndex = 14;
-            textBox3.Text = "www.url.com";
+            website_input.Location = new Point(18, 34);
+            website_input.Name = "website_input";
+            website_input.Size = new Size(481, 23);
+            website_input.TabIndex = 14;
+            website_input.Text = "www.url.com";
             // 
             // label3
             // 
@@ -56,7 +62,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            Controls.Add(textBox3);
+            Controls.Add(website_input);
             Controls.Add(label3);
             Name = "CreateVaultWebsiteUserControl";
             Size = new Size(521, 70);
@@ -65,7 +71,7 @@
         }
 
         #endregion
-        private TextBox textBox3;
+        private TextBox website_input;
         private Label label3;
     }
 }

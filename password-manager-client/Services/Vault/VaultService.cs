@@ -1,10 +1,7 @@
 ﻿using password_manager_client.Helpers;
-using password_manager_client.Responses.Auth;
 using password_manager_client.Responses.Shared;
-using password_manager_client.Services.Auth.Dto;
 using password_manager_client.Services.Shared;
 using password_manager_client.Services.Vault.Dto;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;

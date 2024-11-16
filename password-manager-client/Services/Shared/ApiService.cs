@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using System.Text.Json;
+﻿using password_manager_client.Helpers;
+using System.Net.Http.Headers;
 
 namespace password_manager_client.Services.Shared
 {
@@ -11,6 +11,12 @@ namespace password_manager_client.Services.Shared
         {
             _httpClient = httpClient;
             httpClient.BaseAddress = new Uri("https://localhost:7260");
+
+            var authToken = Session.AuthToken;
+            if (!string.IsNullOrEmpty(authToken))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+            }
         }
     }
 }

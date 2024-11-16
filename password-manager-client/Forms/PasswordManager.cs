@@ -98,10 +98,21 @@ namespace password_manager_client
                     ItemType = 1,
                     Title = _createVaultUserControl.NameInput,
                     EncryptedPassword = _createVaultUserControl.PasswordInput,
-                    Username = _createVaultUserControl.UsernameInput
+                    Username = _createVaultUserControl.UsernameInput,
+                    Url = !string.IsNullOrEmpty(_createVaultWebsiteUserControl.WebsiteInput) ? _createVaultWebsiteUserControl.WebsiteInput : null
                 };
 
-                await _vaultService.CreateAsync(vault);
+                var result = await _vaultService.CreateAsync(vault);
+
+                if (result)
+                {
+                    MessageBox.Show("Vault created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("An error occurred while creating the vault.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
         }
     }
