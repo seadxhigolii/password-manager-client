@@ -53,12 +53,12 @@
             vaultsFlowLayoutPanel = new FlowLayoutPanel();
             mainPanel = new Panel();
             last_updated_groupbox = new GroupBox();
-            label11 = new Label();
-            label13 = new Label();
-            label9 = new Label();
-            label14 = new Label();
-            label10 = new Label();
-            label12 = new Label();
+            created_value = new Label();
+            password_history_value = new Label();
+            updated_label = new Label();
+            password_history_label = new Label();
+            updated_value = new Label();
+            created_label = new Label();
             item_information_label = new Label();
             edit_button = new Button();
             duplicate_button = new Button();
@@ -310,9 +310,11 @@
             // 
             // vaultsFlowLayoutPanel
             // 
+            vaultsFlowLayoutPanel.AutoScroll = true;
+            vaultsFlowLayoutPanel.FlowDirection = FlowDirection.TopDown;
             vaultsFlowLayoutPanel.Location = new Point(0, 0);
             vaultsFlowLayoutPanel.Name = "vaultsFlowLayoutPanel";
-            vaultsFlowLayoutPanel.Size = new Size(269, 642);
+            vaultsFlowLayoutPanel.Size = new Size(268, 642);
             vaultsFlowLayoutPanel.TabIndex = 29;
             // 
             // mainPanel
@@ -327,86 +329,81 @@
             // 
             // last_updated_groupbox
             // 
-            last_updated_groupbox.Controls.Add(label11);
-            last_updated_groupbox.Controls.Add(label13);
-            last_updated_groupbox.Controls.Add(label9);
-            last_updated_groupbox.Controls.Add(label14);
-            last_updated_groupbox.Controls.Add(label10);
-            last_updated_groupbox.Controls.Add(label12);
+            last_updated_groupbox.Controls.Add(created_value);
+            last_updated_groupbox.Controls.Add(password_history_value);
+            last_updated_groupbox.Controls.Add(updated_label);
+            last_updated_groupbox.Controls.Add(password_history_label);
+            last_updated_groupbox.Controls.Add(updated_value);
+            last_updated_groupbox.Controls.Add(created_label);
             last_updated_groupbox.Location = new Point(192, 396);
             last_updated_groupbox.Name = "last_updated_groupbox";
             last_updated_groupbox.Size = new Size(206, 62);
             last_updated_groupbox.TabIndex = 7;
             last_updated_groupbox.TabStop = false;
+            last_updated_groupbox.Visible = false;
             // 
-            // label11
+            // created_value
             // 
-            label11.AutoSize = true;
-            label11.ForeColor = SystemColors.ControlDarkDark;
-            label11.Location = new Point(59, 25);
-            label11.Name = "label11";
-            label11.Size = new Size(141, 15);
-            label11.TabIndex = 4;
-            label11.Text = "Feb 19, 2024, 11:59:00 AM";
-            label11.Visible = false;
+            created_value.AutoSize = true;
+            created_value.ForeColor = SystemColors.ControlDarkDark;
+            created_value.Location = new Point(59, 25);
+            created_value.Name = "created_value";
+            created_value.Size = new Size(141, 15);
+            created_value.TabIndex = 4;
+            created_value.Text = "Feb 19, 2024, 11:59:00 AM";
             // 
-            // label13
+            // password_history_value
             // 
-            label13.AutoSize = true;
-            label13.ForeColor = SystemColors.ControlDarkDark;
-            label13.Location = new Point(104, 42);
-            label13.Name = "label13";
-            label13.Size = new Size(13, 15);
-            label13.TabIndex = 6;
-            label13.Text = "2";
-            label13.Visible = false;
+            password_history_value.AutoSize = true;
+            password_history_value.ForeColor = SystemColors.ControlDarkDark;
+            password_history_value.Location = new Point(104, 42);
+            password_history_value.Name = "password_history_value";
+            password_history_value.Size = new Size(13, 15);
+            password_history_value.TabIndex = 6;
+            password_history_value.Text = "2";
             // 
-            // label9
+            // updated_label
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = SystemColors.ControlDarkDark;
-            label9.Location = new Point(2, 8);
-            label9.Name = "label9";
-            label9.Size = new Size(58, 15);
-            label9.TabIndex = 1;
-            label9.Text = "Updated:";
-            label9.Visible = false;
+            updated_label.AutoSize = true;
+            updated_label.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            updated_label.ForeColor = SystemColors.ControlDarkDark;
+            updated_label.Location = new Point(2, 8);
+            updated_label.Name = "updated_label";
+            updated_label.Size = new Size(58, 15);
+            updated_label.TabIndex = 1;
+            updated_label.Text = "Updated:";
             // 
-            // label14
+            // password_history_label
             // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.ForeColor = SystemColors.ControlDarkDark;
-            label14.Location = new Point(2, 42);
-            label14.Name = "label14";
-            label14.Size = new Size(103, 15);
-            label14.TabIndex = 5;
-            label14.Text = "Password history:";
-            label14.Visible = false;
+            password_history_label.AutoSize = true;
+            password_history_label.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            password_history_label.ForeColor = SystemColors.ControlDarkDark;
+            password_history_label.Location = new Point(2, 42);
+            password_history_label.Name = "password_history_label";
+            password_history_label.Size = new Size(103, 15);
+            password_history_label.TabIndex = 5;
+            password_history_label.Text = "Password history:";
             // 
-            // label10
+            // updated_value
             // 
-            label10.AutoSize = true;
-            label10.ForeColor = SystemColors.ControlDarkDark;
-            label10.Location = new Point(59, 8);
-            label10.Name = "label10";
-            label10.Size = new Size(133, 15);
-            label10.TabIndex = 2;
-            label10.Text = "Jun 14, 2024, 7:18:34 PM";
-            label10.Visible = false;
+            updated_value.AutoSize = true;
+            updated_value.ForeColor = SystemColors.ControlDarkDark;
+            updated_value.Location = new Point(59, 8);
+            updated_value.Name = "updated_value";
+            updated_value.Size = new Size(133, 15);
+            updated_value.TabIndex = 2;
+            updated_value.Text = "Jun 14, 2024, 7:18:34 PM";
             // 
-            // label12
+            // created_label
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = SystemColors.ControlDarkDark;
-            label12.Location = new Point(2, 25);
-            label12.Name = "label12";
-            label12.Size = new Size(54, 15);
-            label12.TabIndex = 3;
-            label12.Text = "Created:";
-            label12.Visible = false;
+            created_label.AutoSize = true;
+            created_label.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            created_label.ForeColor = SystemColors.ControlDarkDark;
+            created_label.Location = new Point(2, 25);
+            created_label.Name = "created_label";
+            created_label.Size = new Size(54, 15);
+            created_label.TabIndex = 3;
+            created_label.Text = "Created:";
             // 
             // item_information_label
             // 
@@ -583,12 +580,12 @@
         private PictureBox duplicate_icon;
         private PictureBox pictureBox10;
         private Label item_information_label;
-        private Label label9;
-        private Label label10;
-        private Label label11;
-        private Label label12;
-        private Label label13;
-        private Label label14;
+        private Label updated_label;
+        private Label updated_value;
+        private Label created_value;
+        private Label created_label;
+        private Label password_history_value;
+        private Label password_history_label;
         private GroupBox last_updated_groupbox;
         private PictureBox save_icon;
         private Button save_button;

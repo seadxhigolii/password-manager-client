@@ -44,7 +44,7 @@ namespace password_manager_client.Services.Vault
             
         }
 
-        public async Task<Response<IList<Models.Vault>>> GetAllByUserId(Guid userId)
+        public async Task<Response<IList<Models.Vault>>> GetAllByUserIdAsync(Guid userId)
         {
             try
             {
@@ -69,6 +69,41 @@ namespace password_manager_client.Services.Vault
                     Data = null,
                     Succeeded = false,
                     Message = "Failed to retrieve vaults.",
+                    StatusCode = (int)response.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
+        public async Task<Response<Models.Vault>> GetVaultByIdAsync(Guid vaultId)
+        {
+            try
+            {
+                var entity = new GetVaultById { Id = vaultId };
+                string json = JsonSerializer.Serialize(entity, Program.JsonOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Vault/GetById", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<Response<Models.Vault>>(Program.JsonOptions);
+
+                    if (result != null && result.Data != null)
+                    {
+                        return result;
+                    }
+                }
+
+                return new Response<Models.Vault>
+                {
+                    Data = null,
+                    Succeeded = false,
+                    Message = "Failed to retrieve vault.",
                     StatusCode = (int)response.StatusCode
                 };
             }

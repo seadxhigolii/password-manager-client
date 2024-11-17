@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewVaultUserControl));
             label1 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            name_input = new TextBox();
+            username_input = new TextBox();
             label2 = new Label();
-            textBox3 = new TextBox();
+            password_input = new TextBox();
             label3 = new Label();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
@@ -53,23 +53,23 @@
             label1.TabIndex = 0;
             label1.Text = "Name";
             // 
-            // textBox1
+            // name_input
             // 
-            textBox1.Enabled = false;
-            textBox1.Location = new Point(14, 32);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(485, 23);
-            textBox1.TabIndex = 1;
-            textBox1.Text = "Google Login";
+            name_input.Enabled = false;
+            name_input.Location = new Point(14, 32);
+            name_input.Name = "name_input";
+            name_input.Size = new Size(485, 23);
+            name_input.TabIndex = 1;
+            name_input.Text = "Google Login";
             // 
-            // textBox2
+            // username_input
             // 
-            textBox2.Enabled = false;
-            textBox2.Location = new Point(14, 97);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(456, 23);
-            textBox2.TabIndex = 3;
-            textBox2.Text = "username@email.com";
+            username_input.Enabled = false;
+            username_input.Location = new Point(14, 97);
+            username_input.Name = "username_input";
+            username_input.Size = new Size(456, 23);
+            username_input.TabIndex = 3;
+            username_input.Text = "username@email.com";
             // 
             // label2
             // 
@@ -81,14 +81,14 @@
             label2.TabIndex = 2;
             label2.Text = "Username";
             // 
-            // textBox3
+            // password_input
             // 
-            textBox3.Enabled = false;
-            textBox3.Location = new Point(14, 167);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(417, 23);
-            textBox3.TabIndex = 5;
-            textBox3.Text = "username@email.com";
+            password_input.Enabled = false;
+            password_input.Location = new Point(14, 167);
+            password_input.Name = "password_input";
+            password_input.Size = new Size(417, 23);
+            password_input.TabIndex = 5;
+            password_input.Text = "username@email.com";
             // 
             // label3
             // 
@@ -130,7 +130,7 @@
             pictureBox3.TabIndex = 8;
             pictureBox3.TabStop = false;
             // 
-            // PasswordDetails
+            // ViewVaultUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -139,13 +139,13 @@
             Controls.Add(pictureBox3);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
-            Controls.Add(textBox3);
+            Controls.Add(password_input);
             Controls.Add(label3);
-            Controls.Add(textBox2);
+            Controls.Add(username_input);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(name_input);
             Controls.Add(label1);
-            Name = "PasswordDetails";
+            Name = "ViewVaultUserControl";
             Size = new Size(521, 212);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -156,11 +156,32 @@
 
         #endregion
 
+        #region Publicly Accessible Elements
+        public string NameInput
+        {
+            get => name_input.Text;
+            set => name_input.Text = value;
+        }
+
+        public string UsernameInput
+        {
+            get => username_input.Text;
+            set => username_input.Text = value;
+        }
+
+        public string PasswordInput
+        {
+            get => password_input.Text;
+            set => password_input.Text = value;
+        }
+
+        #endregion Publicly Accessible Elements
+
         private Label label1;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox name_input;
+        private TextBox username_input;
         private Label label2;
-        private TextBox textBox3;
+        private TextBox password_input;
         private Label label3;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;

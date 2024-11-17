@@ -68,12 +68,20 @@ namespace password_manager_client.Forms
 
                 var loginResult = await _authService.LoginAsync(registerData);
 
-                if (loginResult == true)
+                if (loginResult.StatusCode == 200 && loginResult.Data)
                 {
                     var passwordManagerForm = new Lockwise();
                     passwordManagerForm.Show();
                     this.Hide();
                     passwordManagerForm.FormClosed += (s, args) => Application.Exit();
+                }
+                else if (loginResult.StatusCode == 200 && !loginResult.Data)
+                {
+                    MessageBox.Show("Please check your credentials and try again.", "Wrong credentials", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (loginResult.StatusCode != 200)
+                {
+                    MessageBox.Show("Error", loginResult.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else if (IsUserControlActive(_registerUserControl))

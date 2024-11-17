@@ -17,7 +17,7 @@ namespace password_manager_client.Services.Auth
         {
         }
 
-        public async Task<bool> LoginAsync(LoginDto loginData)
+        public async Task<Response<bool>> LoginAsync(LoginDto loginData)
         {
             try
             {
@@ -25,6 +25,8 @@ namespace password_manager_client.Services.Auth
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Auth/Login", content);
+
+                var loginResponse = new Response<bool>();
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -41,12 +43,33 @@ namespace password_manager_client.Services.Auth
 
                         if (Session.IsAuthenticated)
                         {
-                            return true;
+
+                            loginResponse = new Response<bool>{
+                                Data = true,
+                                StatusCode = 200
+                            };
+                            return loginResponse;
+                        }
+                        else
+                        {
+                            loginResponse = new Response<bool>
+                            {
+                                Data = false,
+                                StatusCode = 200
+                            };
+                            return loginResponse;
                         }
                     }
                 }
 
-                return false;
+                loginResponse = new Response<bool>
+                {
+                    Data = false,
+                    StatusCode = (int)response.StatusCode,
+                    Message = await response.Content.ReadAsStringAsync()
+                };
+
+                return loginResponse;
             }
             catch (Exception ex)
             {

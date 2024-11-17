@@ -48,6 +48,7 @@
             login_password_input.Location = new Point(3, 32);
             login_password_input.Name = "login_password_input";
             login_password_input.PlaceholderText = "Master Password";
+            login_password_input.PasswordChar = '•';
             login_password_input.Size = new Size(184, 23);
             login_password_input.TabIndex = 17;
             // 

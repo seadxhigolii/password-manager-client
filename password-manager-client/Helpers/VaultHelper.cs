@@ -2,20 +2,22 @@
 {
     public static class VaultHelper
     {
-        public static Panel CreateVaultEntry(string website, string email, byte[] imageBytes)
+        public static Panel CreateVaultEntry(Guid vaultId, string title, string email, byte[] imageBytes, Func<Guid, Task> onClick)
         {
             Panel vaultPanel = new Panel
             {
-                Size = new Size(267, 30),
-                BorderStyle = BorderStyle.None
+                Size = new Size(260, 30),
+                BorderStyle = BorderStyle.None,
+                Cursor = Cursors.Hand
             };
 
-            Label websiteLabel = new Label
+            Label nameLabel = new Label
             {
                 AutoSize = true,
                 Location = new Point(28, 1),
-                Text = website,
+                Text = title,
                 Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point),
+                Cursor = Cursors.Hand
             };
 
             Label emailLabel = new Label
@@ -25,6 +27,7 @@
                 Text = email,
                 ForeColor = SystemColors.ControlDark,
                 Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point),
+                Cursor = Cursors.Hand
             };
 
             PictureBox iconPictureBox = new PictureBox
@@ -32,6 +35,7 @@
                 BackgroundImageLayout = ImageLayout.Stretch,
                 Location = new Point(3, 7),
                 Size = new Size(20, 20),
+                Cursor = Cursors.Hand
             };
 
             if (imageBytes != null && imageBytes.Length > 0)
@@ -45,16 +49,32 @@
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine($"Error loading image: {ex.Message}");
                 }
             }
 
-            vaultPanel.Controls.Add(websiteLabel);
+            async void PanelClickHandler(object sender, EventArgs e)
+            {
+                try
+                {
+                    await onClick(vaultId);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error handling vault click: {ex.Message}");
+                }
+            }
+
+            vaultPanel.Click += PanelClickHandler;
+            nameLabel.Click += PanelClickHandler;
+            emailLabel.Click += PanelClickHandler;
+            iconPictureBox.Click += PanelClickHandler;
+
+            vaultPanel.Controls.Add(nameLabel);
             vaultPanel.Controls.Add(emailLabel);
             vaultPanel.Controls.Add(iconPictureBox);
 
             return vaultPanel;
         }
-
-
     }
 }
