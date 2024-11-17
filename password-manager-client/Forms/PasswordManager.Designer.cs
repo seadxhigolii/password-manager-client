@@ -50,15 +50,7 @@
             pictureBox7 = new PictureBox();
             create_vault_button = new Button();
             panel3 = new Panel();
-            label19 = new Label();
-            label20 = new Label();
-            pictureBox13 = new PictureBox();
-            label17 = new Label();
-            label18 = new Label();
-            pictureBox12 = new PictureBox();
-            label16 = new Label();
-            label15 = new Label();
-            pictureBox11 = new PictureBox();
+            vaultsFlowLayoutPanel = new FlowLayoutPanel();
             mainPanel = new Panel();
             last_updated_groupbox = new GroupBox();
             label11 = new Label();
@@ -89,9 +81,6 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox13).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
             mainPanel.SuspendLayout();
             last_updated_groupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)edit_icon).BeginInit();
@@ -313,109 +302,18 @@
             // panel3
             // 
             panel3.AutoScroll = true;
-            panel3.Controls.Add(label19);
-            panel3.Controls.Add(label20);
-            panel3.Controls.Add(pictureBox13);
-            panel3.Controls.Add(label17);
-            panel3.Controls.Add(label18);
-            panel3.Controls.Add(pictureBox12);
-            panel3.Controls.Add(label16);
-            panel3.Controls.Add(label15);
-            panel3.Controls.Add(pictureBox11);
+            panel3.Controls.Add(vaultsFlowLayoutPanel);
             panel3.Location = new Point(6, 19);
             panel3.Name = "panel3";
             panel3.Size = new Size(269, 642);
             panel3.TabIndex = 0;
             // 
-            // label19
+            // vaultsFlowLayoutPanel
             // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label19.ForeColor = SystemColors.ControlDark;
-            label19.Location = new Point(28, 93);
-            label19.Name = "label19";
-            label19.Size = new Size(111, 13);
-            label19.TabIndex = 28;
-            label19.Text = "example@email.com";
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Location = new Point(28, 78);
-            label20.Name = "label20";
-            label20.Size = new Size(104, 15);
-            label20.TabIndex = 27;
-            label20.Text = "www.website.com";
-            // 
-            // pictureBox13
-            // 
-            pictureBox13.BackgroundImage = (Image)resources.GetObject("pictureBox13.BackgroundImage");
-            pictureBox13.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox13.Location = new Point(3, 84);
-            pictureBox13.Name = "pictureBox13";
-            pictureBox13.Size = new Size(20, 20);
-            pictureBox13.TabIndex = 26;
-            pictureBox13.TabStop = false;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label17.ForeColor = SystemColors.ControlDark;
-            label17.Location = new Point(28, 53);
-            label17.Name = "label17";
-            label17.Size = new Size(111, 13);
-            label17.TabIndex = 25;
-            label17.Text = "example@email.com";
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Location = new Point(28, 38);
-            label18.Name = "label18";
-            label18.Size = new Size(104, 15);
-            label18.TabIndex = 24;
-            label18.Text = "www.website.com";
-            // 
-            // pictureBox12
-            // 
-            pictureBox12.BackgroundImage = (Image)resources.GetObject("pictureBox12.BackgroundImage");
-            pictureBox12.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox12.Location = new Point(3, 44);
-            pictureBox12.Name = "pictureBox12";
-            pictureBox12.Size = new Size(20, 20);
-            pictureBox12.TabIndex = 23;
-            pictureBox12.TabStop = false;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.ForeColor = SystemColors.ControlDark;
-            label16.Location = new Point(28, 16);
-            label16.Name = "label16";
-            label16.Size = new Size(111, 13);
-            label16.TabIndex = 22;
-            label16.Text = "example@email.com";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Location = new Point(28, 1);
-            label15.Name = "label15";
-            label15.Size = new Size(104, 15);
-            label15.TabIndex = 21;
-            label15.Text = "www.website.com";
-            // 
-            // pictureBox11
-            // 
-            pictureBox11.BackgroundImage = (Image)resources.GetObject("pictureBox11.BackgroundImage");
-            pictureBox11.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox11.Location = new Point(3, 7);
-            pictureBox11.Name = "pictureBox11";
-            pictureBox11.Size = new Size(20, 20);
-            pictureBox11.TabIndex = 20;
-            pictureBox11.TabStop = false;
+            vaultsFlowLayoutPanel.Location = new Point(0, 0);
+            vaultsFlowLayoutPanel.Name = "vaultsFlowLayoutPanel";
+            vaultsFlowLayoutPanel.Size = new Size(269, 642);
+            vaultsFlowLayoutPanel.TabIndex = 29;
             // 
             // mainPanel
             // 
@@ -450,6 +348,7 @@
             label11.Size = new Size(141, 15);
             label11.TabIndex = 4;
             label11.Text = "Feb 19, 2024, 11:59:00 AM";
+            label11.Visible = false;
             // 
             // label13
             // 
@@ -460,6 +359,7 @@
             label13.Size = new Size(13, 15);
             label13.TabIndex = 6;
             label13.Text = "2";
+            label13.Visible = false;
             // 
             // label9
             // 
@@ -471,6 +371,7 @@
             label9.Size = new Size(58, 15);
             label9.TabIndex = 1;
             label9.Text = "Updated:";
+            label9.Visible = false;
             // 
             // label14
             // 
@@ -482,6 +383,7 @@
             label14.Size = new Size(103, 15);
             label14.TabIndex = 5;
             label14.Text = "Password history:";
+            label14.Visible = false;
             // 
             // label10
             // 
@@ -492,6 +394,7 @@
             label10.Size = new Size(133, 15);
             label10.TabIndex = 2;
             label10.Text = "Jun 14, 2024, 7:18:34 PM";
+            label10.Visible = false;
             // 
             // label12
             // 
@@ -503,6 +406,7 @@
             label12.Size = new Size(54, 15);
             label12.TabIndex = 3;
             label12.Text = "Created:";
+            label12.Visible = false;
             // 
             // item_information_label
             // 
@@ -514,6 +418,7 @@
             item_information_label.Size = new Size(161, 21);
             item_information_label.TabIndex = 0;
             item_information_label.Text = "ITEM INFORMATION";
+            item_information_label.Visible = false;
             // 
             // edit_button
             // 
@@ -636,10 +541,6 @@
             groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox13).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
             last_updated_groupbox.ResumeLayout(false);
@@ -688,18 +589,10 @@
         private Label label12;
         private Label label13;
         private Label label14;
-        private PictureBox pictureBox11;
-        private Label label15;
-        private Label label16;
-        private Label label19;
-        private Label label20;
-        private PictureBox pictureBox13;
-        private Label label17;
-        private Label label18;
-        private PictureBox pictureBox12;
         private GroupBox last_updated_groupbox;
         private PictureBox save_icon;
         private Button save_button;
         private Button cancel_button;
+        private FlowLayoutPanel vaultsFlowLayoutPanel;
     }
 }

@@ -34,12 +34,32 @@ namespace password_manager_client
 
             InitializeComponent();
 
-            LoadUserControl(_viewVaultUserControl, 50);
-            LoadUserControl(_viewVaultWebsiteUserControl, 50 + _viewVaultUserControl.Height + 20);
-
             _initialGroupBoxTop = last_updated_groupbox.Top;
             _activeUserControl = _viewVaultUserControl;
+
+            LoadAllVaults();
         }
+
+        private async void LoadAllVaults()
+        {
+            var vaultListResponse = await _vaultService.GetAllByUserId(Session.UserId);
+
+            if (vaultListResponse != null && vaultListResponse.Succeeded && vaultListResponse.Data != null)
+            {
+                vaultsFlowLayoutPanel.Controls.Clear();
+
+                foreach (var vault in vaultListResponse.Data)
+                {
+                    var vaultPanel = VaultHelper.CreateVaultEntry(vault.Url, vault.Username, vault.FavIcon);
+                    vaultsFlowLayoutPanel.Controls.Add(vaultPanel);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Failed to load vaults: " + vaultListResponse?.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         private void create_vault_button_Click(object sender, EventArgs e)
         {
@@ -56,6 +76,7 @@ namespace password_manager_client
             {
                 #region Main Panel label changes
 
+                item_information_label.Visible = true;
                 item_information_label.Text = "ADD ITEM";
                 last_updated_groupbox.Visible = false;
 
@@ -112,7 +133,6 @@ namespace password_manager_client
                 {
                     MessageBox.Show("An error occurred while creating the vault.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
             }
         }
     }

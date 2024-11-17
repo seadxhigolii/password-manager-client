@@ -36,12 +36,48 @@ namespace password_manager_client.Services.Vault
 
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
             
         }
+
+        public async Task<Response<IList<Models.Vault>>> GetAllByUserId(Guid userId)
+        {
+            try
+            {
+                var entity = new GetVaultsByUserId { UserId = userId };
+                string json = JsonSerializer.Serialize(entity, Program.JsonOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Vault/GetAllByUserId", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<Response<IList<Models.Vault>>>(Program.JsonOptions);
+
+                    if (result != null && result.Data != null)
+                    {
+                        return result;
+                    }
+                }
+
+                return new Response<IList<Models.Vault>>
+                {
+                    Data = null,
+                    Succeeded = false,
+                    Message = "Failed to retrieve vaults.",
+                    StatusCode = (int)response.StatusCode
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
     }
 }

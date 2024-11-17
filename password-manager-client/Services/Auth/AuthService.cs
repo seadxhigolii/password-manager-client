@@ -19,29 +19,40 @@ namespace password_manager_client.Services.Auth
 
         public async Task<bool> LoginAsync(LoginDto loginData)
         {
-            string json = JsonSerializer.Serialize(loginData, Program.JsonOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Auth/Login", content);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var result = await response.Content.ReadFromJsonAsync<Response<LoginResponse>>(Program.JsonOptions);
+                string json = JsonSerializer.Serialize(loginData, Program.JsonOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                if (result != null && result.Data != null)
+                HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Auth/Login", content);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", result.Data.AuthToken);
+                    var result = await response.Content.ReadFromJsonAsync<Response<LoginResponse>>(Program.JsonOptions);
 
-                    Session.StartSession(result.Data.UserId, result.Data.AuthToken, result.Data.PrivateKey, result.Data.PublicKey, result.Data.Username);
-
-                    if(Session.IsAuthenticated)
+                    if (result != null && result.Data != null)
                     {
-                        return true;
+                        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", result.Data.AuthToken);
+
+                        Session.StartSession(result.Data.UserId, result.Data.AuthToken, result.Data.PrivateKey, result.Data.PublicKey, result.Data.Username);
+
+                        Properties.Settings.Default.SavedEmail = loginData.Username;
+                        Properties.Settings.Default.Save();
+
+                        if (Session.IsAuthenticated)
+                        {
+                            return true;
+                        }
                     }
                 }
-            }
 
-            return false;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }            
         }
 
         public async Task<bool> RegisterAsync(RegisterDto registerData)

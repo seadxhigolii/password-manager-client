@@ -9,6 +9,13 @@ namespace password_manager_client.UserControls.LoginForm.Login
         {
             _registerUserControl = new ruc.RegisterUserControl();
             InitializeComponent();
+
+            var savedUsername = Properties.Settings.Default.SavedEmail;
+
+            if (!string.IsNullOrEmpty(savedUsername))
+            {
+                login_email_input.Text = savedUsername;
+            }
         }
     }
 }
