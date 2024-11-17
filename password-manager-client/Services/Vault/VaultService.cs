@@ -48,11 +48,7 @@ namespace password_manager_client.Services.Vault
         {
             try
             {
-                var entity = new GetVaultsByUserId { UserId = userId };
-                string json = JsonSerializer.Serialize(entity, Program.JsonOptions);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Vault/GetAllByUserId", content);
+                HttpResponseMessage response = await _httpClient.GetAsync($"/api/v1/Vault/GetAllByUserId/{userId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -83,11 +79,7 @@ namespace password_manager_client.Services.Vault
         {
             try
             {
-                var entity = new GetVaultById { Id = vaultId };
-                string json = JsonSerializer.Serialize(entity, Program.JsonOptions);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await _httpClient.PostAsync("/api/v1/Vault/GetById", content);
+                HttpResponseMessage response = await _httpClient.GetAsync($"/api/v1/Vault/GetById/{vaultId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -114,5 +106,34 @@ namespace password_manager_client.Services.Vault
             }
         }
 
+        public async Task<bool> UpdateVaultAsync(UpdateVaultDto vault)
+        {
+            try
+            {
+                string json = JsonSerializer.Serialize(vault, Program.JsonOptions);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync($"/api/v1/Vault/{vault.Id}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<Response<bool>>(Program.JsonOptions);
+
+                    return result != null && result.Succeeded;
+                }
+                else
+                {
+                    string errorMessage = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Failed to update vault: {response.StatusCode}, {errorMessage}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

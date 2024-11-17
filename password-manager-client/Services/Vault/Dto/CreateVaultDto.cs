@@ -10,6 +10,5 @@ namespace password_manager_client.Services.Vault.Dto
         public string EncryptedPassword { get; set; }
         public string Username { get; set; }
         public string? Url { get; set; }
-
     }
 }

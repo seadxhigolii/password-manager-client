@@ -6,7 +6,6 @@ using password_manager_client.UserControls;
 using password_manager_client.UserControls.PasswordManagerForm.PasswordWebsite;
 using password_manager_client.UserControls.PasswordManagerForm.Vault.Create;
 using password_manager_client.UserControls.PasswordManagerForm.Vault.Edit;
-using System.Windows.Forms;
 
 namespace password_manager_client
 {
@@ -21,6 +20,7 @@ namespace password_manager_client
         private UserControl _activeUserControl;
         private VaultService _vaultService;
         private int _initialGroupBoxTop;
+        private Guid _previousVaultId = Guid.Empty;
         public Lockwise()
         {
             var httpClient = new HttpClient();
@@ -70,6 +70,12 @@ namespace password_manager_client
 
         private async Task DisplayVaultDetailsAsync(Guid vaultId)
         {
+            if (_previousVaultId == vaultId)
+            {
+                return;
+            }
+
+            _previousVaultId = vaultId;
             var vaultData = await _vaultService.GetVaultByIdAsync(vaultId);
 
             if (vaultData.Data != null)
@@ -168,7 +174,7 @@ namespace password_manager_client
             {
                 var vault = new CreateVaultDto
                 {
-                    UserId = Session.UserId,    
+                    UserId = Session.UserId,
                     ItemType = 1,
                     Title = _createVaultUserControl.NameInput,
                     EncryptedPassword = _createVaultUserControl.PasswordInput,
@@ -187,7 +193,72 @@ namespace password_manager_client
                     MessageBox.Show("An error occurred while creating the vault.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else if (_activeUserControl == _editVaultUserControl)
+            {
+                var vault = new UpdateVaultDto
+                {
+                    ItemType = 1,
+                    Title = _editVaultUserControl.NameInput,
+                    EncryptedPassword = _editVaultUserControl.PasswordInput,
+                    Username = _editVaultUserControl.UsernameInput,
+                    Url = !string.IsNullOrEmpty(_editVaultWebsiteUserControl.WebsiteInput) ? _editVaultWebsiteUserControl.WebsiteInput : null
+                };
+
+                var result = await _vaultService.UpdateVaultAsync(vault);
+
+                if (result)
+                {
+                    MessageBox.Show("Vault updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
+
+        private void edit_button_Click(object sender, EventArgs e)
+        {
+            #region Field Values
+
+            _editVaultUserControl.NameInput = _viewVaultUserControl.NameInput;
+            _editVaultUserControl.UsernameInput = _viewVaultUserControl.UsernameInput;
+            _editVaultUserControl.PasswordInput = _viewVaultUserControl.PasswordInput;
+
+            _editVaultUserControl.NameInputEnabled = true;
+            _editVaultUserControl.UsernameInputEnabled = true;
+            _editVaultUserControl.PasswordInputEnabled = true;
+
+            #endregion Field Values
+
+            if (_activeUserControl != null)
+            {
+                mainPanel.Controls.Remove(_activeUserControl);
+            }
+
+            _activeUserControl = _editVaultUserControl;
+
+            LoadUserControl(_editVaultUserControl, 50);
+
+            #region Main Panel label changes
+
+            item_information_label.Visible = true;
+            item_information_label.Text = "EDIT ITEM";
+            last_updated_groupbox.Visible = true;
+
+            #endregion Main Panel label changes
+
+            #region Button changes
+
+            save_button.Location = edit_button.Location;
+            save_icon.Location = edit_icon.Location;
+            cancel_button.Location = duplicate_button.Location;
+            save_button.Visible = true;
+            save_icon.Visible = true;
+            edit_button.Visible = false;
+            edit_icon.Visible = false;
+            duplicate_button.Visible = false;
+            duplicate_icon.Visible = false;
+
+            #endregion Button changes
+        }
+
 
         private void LoadUserControl(UserControl userControl, int topPosition)
         {
@@ -199,6 +270,20 @@ namespace password_manager_client
             userControl.Left = (mainPanel.ClientSize.Width - userControl.Width) / 2;
             userControl.Top = topPosition;
             userControl.BringToFront();
+        }
+
+        private void cancel_button_Click(object sender, EventArgs e)
+        {
+            mainPanel.Controls.Remove(_activeUserControl);
+            mainPanel.Controls.Remove(_viewVaultWebsiteUserControl);
+            mainPanel.Controls.Remove(_editVaultWebsiteUserControl);
+            mainPanel.Controls.Remove(_createVaultWebsiteUserControl);
+            mainPanel.Controls.Remove(_viewVaultUserControl);
+            mainPanel.Controls.Remove(_editVaultUserControl);
+            mainPanel.Controls.Remove(_createVaultUserControl);
+            item_information_label.Visible = false;
+            last_updated_groupbox.Visible = false;
+            _previousVaultId = Guid.Empty;
         }
     }
 }

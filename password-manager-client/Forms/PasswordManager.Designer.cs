@@ -424,6 +424,7 @@
             edit_button.Size = new Size(62, 37);
             edit_button.TabIndex = 15;
             edit_button.UseVisualStyleBackColor = true;
+            edit_button.Click += edit_button_Click;
             // 
             // duplicate_button
             // 
@@ -498,6 +499,7 @@
             cancel_button.TabIndex = 23;
             cancel_button.Text = "Cancel";
             cancel_button.UseVisualStyleBackColor = true;
+            cancel_button.Click += cancel_button_Click;
             // 
             // Lockwise
             // 
