@@ -20,6 +20,16 @@
             base.Dispose(disposing);
         }
 
+        #region Publicly Accessible Elements
+
+        public string WebsiteInput
+        {
+            get => website_input.Text;
+            set => website_input.Text = value;
+        }
+
+        #endregion
+
         #region Component Designer generated code
 
         /// <summary> 
@@ -31,7 +41,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewVaultWebsiteUserControl));
             pictureBox3 = new PictureBox();
             pictureBox2 = new PictureBox();
-            textBox3 = new TextBox();
+            website_input = new TextBox();
             label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -57,14 +67,14 @@
             pictureBox2.TabIndex = 11;
             pictureBox2.TabStop = false;
             // 
-            // textBox3
+            // website_input
             // 
-            textBox3.Enabled = false;
-            textBox3.Location = new Point(18, 34);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(417, 23);
-            textBox3.TabIndex = 10;
-            textBox3.Text = "www.url.com";
+            website_input.Enabled = false;
+            website_input.Location = new Point(18, 34);
+            website_input.Name = "website_input";
+            website_input.Size = new Size(417, 23);
+            website_input.TabIndex = 10;
+            website_input.Text = "www.url.com";
             // 
             // label3
             // 
@@ -76,16 +86,16 @@
             label3.TabIndex = 9;
             label3.Text = "Website";
             // 
-            // PasswordWebsite
+            // ViewVaultWebsiteUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             Controls.Add(pictureBox3);
             Controls.Add(pictureBox2);
-            Controls.Add(textBox3);
+            Controls.Add(website_input);
             Controls.Add(label3);
-            Name = "PasswordWebsite";
+            Name = "ViewVaultWebsiteUserControl";
             Size = new Size(521, 70);
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -97,7 +107,7 @@
 
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
-        private TextBox textBox3;
+        private TextBox website_input;
         private Label label3;
     }
 }

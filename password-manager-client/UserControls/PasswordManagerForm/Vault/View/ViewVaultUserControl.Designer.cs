@@ -174,6 +174,8 @@
             get => password_input.Text;
             set => password_input.Text = value;
         }
+        public Guid VaultId { get; set; }
+
 
         #endregion Publicly Accessible Elements
 

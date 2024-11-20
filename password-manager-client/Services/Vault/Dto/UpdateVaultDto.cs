@@ -9,7 +9,7 @@ namespace password_manager_client.Services.Vault.Dto
         public Guid Id { get; set; }
         public string Title { get; set; }
         public int ItemType { get; set; }
-        public string EncryptedNotes { get; set; }
+        public string? EncryptedNotes { get; set; }
         public bool? IsFavorite { get; set; }
 
 

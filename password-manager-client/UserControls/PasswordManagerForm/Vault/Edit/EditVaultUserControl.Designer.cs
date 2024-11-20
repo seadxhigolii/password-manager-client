@@ -58,6 +58,8 @@
             set => password_input.Enabled = value;
         }
 
+        public Guid VaultId { get; set; }
+
         #endregion Publicly Accessible Elements
 
         #region Component Designer generated code
@@ -201,5 +203,6 @@
         private Label label2;
         private TextBox name_input;
         private Label label1;
+
     }
 }

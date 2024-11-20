@@ -22,6 +22,11 @@
 
         #region Publicly Accessible Elements
 
+        public bool WebsiteInputEnabled
+        {
+            get => website_input.Enabled;
+            set => website_input.Enabled = value;
+        }
         public string WebsiteInput
         {
             get => website_input.Text;
@@ -65,6 +70,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
             Controls.Add(website_input);
             Controls.Add(label3);
             Name = "EditVaultWebsiteUserControl";

@@ -7,6 +7,8 @@ using System.Text.Json;
 using System.Text;
 using password_manager_client.Helpers.Encryption;
 
+using m = password_manager_client.Models;
+
 namespace password_manager_client.Services.Vault
 {
     public class VaultService : ApiService
@@ -106,32 +108,33 @@ namespace password_manager_client.Services.Vault
             }
         }
 
-        public async Task<bool> UpdateVaultAsync(UpdateVaultDto vault)
+        public async Task<Response<m.Vault>> UpdateVaultAsync(UpdateVaultDto vault)
         {
             try
             {
+                vault.EncryptedPassword = EncryptionHelper.EncryptWithRSA(vault.EncryptedPassword, Session.PublicKey);
+
                 string json = JsonSerializer.Serialize(vault, Program.JsonOptions);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PutAsync($"/api/v1/Vault/{vault.Id}", content);
+                HttpResponseMessage response = await _httpClient.PutAsync($"/api/v1/Vault/Update/{vault.Id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadFromJsonAsync<Response<bool>>(Program.JsonOptions);
+                    var result = await response.Content.ReadFromJsonAsync<Response<m.Vault>>(Program.JsonOptions);
 
-                    return result != null && result.Succeeded;
+                    return result;
                 }
                 else
                 {
                     string errorMessage = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Failed to update vault: {response.StatusCode}, {errorMessage}");
-                    return false;
+                    return null;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
         }
