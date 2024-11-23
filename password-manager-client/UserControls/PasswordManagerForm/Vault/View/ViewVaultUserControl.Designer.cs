@@ -35,12 +35,12 @@
             label2 = new Label();
             password_input = new TextBox();
             label3 = new Label();
-            pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            username_copy_button = new PictureBox();
+            password_show_button = new PictureBox();
+            password_copy_button = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)username_copy_button).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)password_show_button).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)password_copy_button).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -100,35 +100,37 @@
             label3.TabIndex = 4;
             label3.Text = "Password";
             // 
-            // pictureBox1
+            // username_copy_button
             // 
-            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(476, 97);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(23, 23);
-            pictureBox1.TabIndex = 6;
-            pictureBox1.TabStop = false;
+            username_copy_button.BackgroundImage = (Image)resources.GetObject("username_copy_button.BackgroundImage");
+            username_copy_button.BackgroundImageLayout = ImageLayout.Stretch;
+            username_copy_button.Location = new Point(476, 97);
+            username_copy_button.Name = "username_copy_button";
+            username_copy_button.Size = new Size(23, 23);
+            username_copy_button.TabIndex = 6;
+            username_copy_button.TabStop = false;
+            username_copy_button.Click += username_copy_button_Click;
             // 
-            // pictureBox2
+            // password_show_button
             // 
-            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
-            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox2.Location = new Point(447, 167);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(23, 23);
-            pictureBox2.TabIndex = 7;
-            pictureBox2.TabStop = false;
+            password_show_button.BackgroundImage = (Image)resources.GetObject("password_show_button.BackgroundImage");
+            password_show_button.BackgroundImageLayout = ImageLayout.Stretch;
+            password_show_button.Location = new Point(447, 167);
+            password_show_button.Name = "password_show_button";
+            password_show_button.Size = new Size(23, 23);
+            password_show_button.TabIndex = 7;
+            password_show_button.TabStop = false;
             // 
-            // pictureBox3
+            // password_copy_button
             // 
-            pictureBox3.BackgroundImage = (Image)resources.GetObject("pictureBox3.BackgroundImage");
-            pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox3.Location = new Point(476, 167);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(23, 23);
-            pictureBox3.TabIndex = 8;
-            pictureBox3.TabStop = false;
+            password_copy_button.BackgroundImage = (Image)resources.GetObject("password_copy_button.BackgroundImage");
+            password_copy_button.BackgroundImageLayout = ImageLayout.Stretch;
+            password_copy_button.Location = new Point(476, 167);
+            password_copy_button.Name = "password_copy_button";
+            password_copy_button.Size = new Size(23, 23);
+            password_copy_button.TabIndex = 8;
+            password_copy_button.TabStop = false;
+            password_copy_button.Click += password_copy_button_Click;
             // 
             // ViewVaultUserControl
             // 
@@ -136,9 +138,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackColor = Color.White;
-            Controls.Add(pictureBox3);
-            Controls.Add(pictureBox2);
-            Controls.Add(pictureBox1);
+            Controls.Add(password_copy_button);
+            Controls.Add(password_show_button);
+            Controls.Add(username_copy_button);
             Controls.Add(password_input);
             Controls.Add(label3);
             Controls.Add(username_input);
@@ -147,9 +149,9 @@
             Controls.Add(label1);
             Name = "ViewVaultUserControl";
             Size = new Size(521, 212);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)username_copy_button).EndInit();
+            ((System.ComponentModel.ISupportInitialize)password_show_button).EndInit();
+            ((System.ComponentModel.ISupportInitialize)password_copy_button).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -185,8 +187,8 @@
         private Label label2;
         private TextBox password_input;
         private Label label3;
-        private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
+        private PictureBox username_copy_button;
+        private PictureBox password_show_button;
+        private PictureBox password_copy_button;
     }
 }

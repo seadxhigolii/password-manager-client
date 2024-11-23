@@ -112,7 +112,10 @@ namespace password_manager_client.Services.Vault
         {
             try
             {
-                vault.EncryptedPassword = EncryptionHelper.EncryptWithRSA(vault.EncryptedPassword, Session.PublicKey);
+                if(vault.EncryptedPassword != null)
+                {
+                    vault.EncryptedPassword = EncryptionHelper.EncryptWithRSA(vault.EncryptedPassword, Session.PublicKey);
+                }
 
                 string json = JsonSerializer.Serialize(vault, Program.JsonOptions);
 

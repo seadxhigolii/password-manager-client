@@ -20,6 +20,7 @@ namespace password_manager_client
         private CreateVaultWebsiteUserControl _createVaultWebsiteUserControl;
         private UserControl _activeUserControl;
         private VaultService _vaultService;
+        private Vault _currentVault;
         private int _initialGroupBoxTop;
         private Guid _previousVaultId = Guid.Empty;
         public Lockwise()
@@ -32,6 +33,7 @@ namespace password_manager_client
             _editVaultWebsiteUserControl = new EditVaultWebsiteUserControl();
             _createVaultWebsiteUserControl = new CreateVaultWebsiteUserControl();
             _activeUserControl = new UserControl();
+            _currentVault = new Vault();
             _vaultService = new VaultService(httpClient);
 
             InitializeComponent();
@@ -85,6 +87,7 @@ namespace password_manager_client
                 {
                     mainPanel.Controls.Remove(_activeUserControl);
                 }
+                _currentVault = vaultData.Data;
                 _activeUserControl = _viewVaultUserControl;
 
                 LoadUserControl(_viewVaultUserControl, 50);
@@ -97,6 +100,18 @@ namespace password_manager_client
                     item_information_label.Visible = true;
                     item_information_label.Text = "ITEM INFORMATION";
                     last_updated_groupbox.Visible = true;
+                    
+                    if(_currentVault.PasswordHistory != null)
+                    {
+                        password_history_label.Visible = true;
+                        password_history_value.Visible = true;
+                        password_history_value.Text = _currentVault.PasswordHistory.ToString();
+                    }
+                    else
+                    {
+                        password_history_label.Visible = false;
+                        password_history_value.Visible = false;
+                    }
 
                     #endregion Main Panel label changes
 
@@ -161,6 +176,8 @@ namespace password_manager_client
                 save_button.Location = edit_button.Location;
                 save_icon.Location = edit_icon.Location;
                 cancel_button.Location = duplicate_button.Location;
+                save_button.Visible = true;
+                save_icon.Visible = true;
                 edit_button.Visible = false;
                 edit_icon.Visible = false;
                 duplicate_button.Visible = false;
@@ -240,6 +257,7 @@ namespace password_manager_client
                 if (result)
                 {
                     MessageBox.Show("Vault created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadAllVaults();
                 }
                 else
                 {
@@ -248,12 +266,20 @@ namespace password_manager_client
             }
             else if (_activeUserControl == _editVaultUserControl)
             {
+                string decryptedPassword = null;
+                if (!string.IsNullOrEmpty(_currentVault.EncryptedPassword))
+                {
+                    decryptedPassword = DecryptionHelper.DecryptPassword(
+                        _currentVault.EncryptedPassword
+                    );
+                }
+
                 var vault = new UpdateVaultDto
                 {
                     Id = _editVaultUserControl.VaultId,
                     ItemType = 1,
                     Title = _editVaultUserControl.NameInput,
-                    EncryptedPassword = _editVaultUserControl.PasswordInput,
+                    EncryptedPassword = decryptedPassword != _editVaultUserControl.PasswordInput ? _editVaultUserControl.PasswordInput : null,
                     Username = _editVaultUserControl.UsernameInput,
                     Url = !string.IsNullOrEmpty(_editVaultWebsiteUserControl.WebsiteInput) ? _editVaultWebsiteUserControl.WebsiteInput : null
                 };
