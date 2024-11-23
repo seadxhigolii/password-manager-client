@@ -39,7 +39,6 @@ namespace password_manager_client
             InitializeComponent();
 
             _initialGroupBoxTop = last_updated_groupbox.Top;
-            _activeUserControl = _viewVaultUserControl;
 
             LoadAllVaults();
         }
@@ -89,6 +88,7 @@ namespace password_manager_client
                 }
                 _currentVault = vaultData.Data;
                 _activeUserControl = _viewVaultUserControl;
+                main_group.Visible = false;
 
                 LoadUserControl(_viewVaultUserControl, 50);
                 LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
@@ -157,6 +157,7 @@ namespace password_manager_client
                 mainPanel.Controls.Remove(_activeUserControl);
             }
             _activeUserControl = _createVaultUserControl;
+            main_group.Visible = false;
 
             LoadUserControl(_createVaultWebsiteUserControl, 100 + _viewVaultUserControl.Height + 20);
             mainPanel.Controls.Remove(_viewVaultWebsiteUserControl);
@@ -211,6 +212,7 @@ namespace password_manager_client
             }
 
             _activeUserControl = _editVaultUserControl;
+            main_group.Visible = false;
 
             LoadUserControl(_editVaultUserControl, 50);
             LoadUserControl(_editVaultWebsiteUserControl, 60 + _editVaultUserControl.Height + 20);
@@ -319,6 +321,7 @@ namespace password_manager_client
             mainPanel.Controls.Remove(_createVaultUserControl);
             item_information_label.Visible = false;
             last_updated_groupbox.Visible = false;
+            main_group.Visible = true;
             _previousVaultId = Guid.Empty;
         }
 

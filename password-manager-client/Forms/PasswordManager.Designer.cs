@@ -52,6 +52,10 @@
             panel3 = new Panel();
             vaultsFlowLayoutPanel = new FlowLayoutPanel();
             mainPanel = new Panel();
+            main_group = new GroupBox();
+            main_logo = new PictureBox();
+            label8 = new Label();
+            main_lock_name = new Label();
             last_updated_groupbox = new GroupBox();
             created_value = new Label();
             password_history_value = new Label();
@@ -82,6 +86,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             panel3.SuspendLayout();
             mainPanel.SuspendLayout();
+            main_group.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)main_logo).BeginInit();
             last_updated_groupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)edit_icon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)duplicate_icon).BeginInit();
@@ -320,12 +326,58 @@
             // mainPanel
             // 
             mainPanel.BackColor = Color.Gainsboro;
+            mainPanel.Controls.Add(main_group);
             mainPanel.Controls.Add(last_updated_groupbox);
             mainPanel.Controls.Add(item_information_label);
             mainPanel.Location = new Point(427, 47);
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(892, 661);
             mainPanel.TabIndex = 12;
+            // 
+            // main_group
+            // 
+            main_group.Controls.Add(main_logo);
+            main_group.Controls.Add(label8);
+            main_group.Controls.Add(main_lock_name);
+            main_group.Location = new Point(192, 226);
+            main_group.Name = "main_group";
+            main_group.Size = new Size(527, 152);
+            main_group.TabIndex = 11;
+            main_group.TabStop = false;
+            // 
+            // main_logo
+            // 
+            main_logo.BackgroundImage = (Image)resources.GetObject("main_logo.BackgroundImage");
+            main_logo.BackgroundImageLayout = ImageLayout.Stretch;
+            main_logo.Location = new Point(193, 6);
+            main_logo.Name = "main_logo";
+            main_logo.Size = new Size(147, 140);
+            main_logo.TabIndex = 8;
+            main_logo.TabStop = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.Transparent;
+            label8.Font = new Font("Segoe UI Semibold", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = SystemColors.ButtonShadow;
+            label8.Location = new Point(326, 34);
+            label8.Name = "label8";
+            label8.Size = new Size(164, 86);
+            label8.TabIndex = 10;
+            label8.Text = "wise";
+            // 
+            // main_lock_name
+            // 
+            main_lock_name.AutoSize = true;
+            main_lock_name.BackColor = Color.Transparent;
+            main_lock_name.Font = new Font("Segoe UI Black", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            main_lock_name.ForeColor = SystemColors.ControlDark;
+            main_lock_name.Location = new Point(46, 34);
+            main_lock_name.Name = "main_lock_name";
+            main_lock_name.Size = new Size(168, 86);
+            main_lock_name.TabIndex = 9;
+            main_lock_name.Text = "lock";
             // 
             // last_updated_groupbox
             // 
@@ -542,6 +594,9 @@
             panel3.ResumeLayout(false);
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
+            main_group.ResumeLayout(false);
+            main_group.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)main_logo).EndInit();
             last_updated_groupbox.ResumeLayout(false);
             last_updated_groupbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)edit_icon).EndInit();
@@ -593,5 +648,9 @@
         private Button save_button;
         private Button cancel_button;
         private FlowLayoutPanel vaultsFlowLayoutPanel;
+        private Label main_lock_name;
+        private PictureBox main_logo;
+        private Label label8;
+        private GroupBox main_group;
     }
 }

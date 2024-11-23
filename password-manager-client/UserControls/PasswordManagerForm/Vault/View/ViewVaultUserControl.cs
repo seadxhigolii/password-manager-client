@@ -1,13 +1,4 @@
 ﻿using password_manager_client.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace password_manager_client.UserControls
 {
@@ -25,7 +16,7 @@ namespace password_manager_client.UserControls
             if (parentForm != null && !string.IsNullOrEmpty(username_input.Text))
             {
                 Clipboard.SetText(username_input.Text);
-                ToastForm.ShowToast(parentForm, "Copied to clipboard!", "success");
+                ToastForm.ShowToast(parentForm, "Copied to clipboard!");
             }
         }
 
