@@ -1,4 +1,5 @@
-﻿namespace password_manager_client
+﻿
+namespace password_manager_client
 {
     partial class Lockwise
     {

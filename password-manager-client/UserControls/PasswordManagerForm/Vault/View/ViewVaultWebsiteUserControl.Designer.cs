@@ -25,7 +25,21 @@
         public string WebsiteInput
         {
             get => website_input.Text;
-            set => website_input.Text = value;
+            set
+            {
+                website_input.Text = value;
+                WebsiteVisible = !string.IsNullOrEmpty(value);
+            }
+        }
+
+        public bool WebsiteVisible
+        {
+            get => website_input.Visible;
+            set
+            {
+                website_input.Visible = value;
+                website_input.Visible = value;
+            }
         }
 
         #endregion

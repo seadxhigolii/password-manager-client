@@ -168,13 +168,41 @@
         public string UsernameInput
         {
             get => username_input.Text;
-            set => username_input.Text = value;
+            set
+            {
+                username_input.Text = value;
+                UsernameVisible = !string.IsNullOrEmpty(value);
+            }
+        }
+
+        public bool UsernameVisible
+        {
+            get => username_input.Visible;
+            set
+            {
+                username_input.Visible = value;
+                username_input.Visible = value;
+            }
         }
 
         public string PasswordInput
         {
             get => password_input.Text;
-            set => password_input.Text = value;
+            set
+            {
+                password_input.Text = value;
+                PasswordVisible = !string.IsNullOrEmpty(value);
+            }
+        }
+
+        public bool PasswordVisible
+        {
+            get => password_input.Visible;
+            set
+            {
+                password_input.Visible = value;
+                password_input.Visible = value;
+            }
         }
         public Guid VaultId { get; set; }
 

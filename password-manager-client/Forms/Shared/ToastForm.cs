@@ -1,6 +1,6 @@
 ﻿using password_manager_client.Utils;
 
-namespace password_manager_client.Helpers
+namespace password_manager_client.Forms.Shared
 {
     public class ToastForm : Form
     {
@@ -96,7 +96,7 @@ namespace password_manager_client.Helpers
 
         private void UpdateToastPosition()
         {
-            int x = parentForm.Location.X + parentForm.Width - this.Width - 15;
+            int x = parentForm.Location.X + parentForm.Width - Width - 15;
             int y = parentForm.Location.Y + 50 + ActiveToasts.IndexOf(this) * (Height + 5);
             Location = new Point(x, y);
         }

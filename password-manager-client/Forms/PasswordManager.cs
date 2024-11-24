@@ -1,4 +1,5 @@
-﻿using password_manager_client.Helpers;
+﻿using password_manager_client.Forms.Shared;
+using password_manager_client.Helpers;
 using password_manager_client.Helpers.Decryption;
 using password_manager_client.Models;
 using password_manager_client.Services.Vault;
@@ -12,33 +13,45 @@ namespace password_manager_client
 {
     public partial class Lockwise : Form
     {
-        private ViewVaultUserControl _viewVaultUserControl;
-        private CreateVaultUserControl _createVaultUserControl;
-        private EditVaultUserControl _editVaultUserControl;
-        private ViewVaultWebsiteUserControl _viewVaultWebsiteUserControl;
-        private EditVaultWebsiteUserControl _editVaultWebsiteUserControl;
-        private CreateVaultWebsiteUserControl _createVaultWebsiteUserControl;
+        private readonly UIManager _uiManager;
+        private readonly VaultService _vaultService;
+        private readonly ViewVaultUserControl _viewVaultUserControl;
+        private readonly CreateVaultUserControl _createVaultUserControl;
+        private readonly EditVaultUserControl _editVaultUserControl;
+        private readonly ViewVaultWebsiteUserControl _viewVaultWebsiteUserControl;
+        private readonly EditVaultWebsiteUserControl _editVaultWebsiteUserControl;
+        private readonly CreateVaultWebsiteUserControl _createVaultWebsiteUserControl;
         private UserControl _activeUserControl;
-        private VaultService _vaultService;
         private Vault _currentVault;
-        private int _initialGroupBoxTop;
         private Guid _previousVaultId = Guid.Empty;
+
         public Lockwise()
         {
-            var httpClient = new HttpClient();
+            InitializeComponent();
+
+            _vaultService = new VaultService(new HttpClient());
             _viewVaultUserControl = new ViewVaultUserControl();
             _createVaultUserControl = new CreateVaultUserControl();
             _editVaultUserControl = new EditVaultUserControl();
             _viewVaultWebsiteUserControl = new ViewVaultWebsiteUserControl();
             _editVaultWebsiteUserControl = new EditVaultWebsiteUserControl();
             _createVaultWebsiteUserControl = new CreateVaultWebsiteUserControl();
-            _activeUserControl = new UserControl();
-            _currentVault = new Vault();
-            _vaultService = new VaultService(httpClient);
 
-            InitializeComponent();
-
-            _initialGroupBoxTop = last_updated_groupbox.Top;
+            _uiManager = new UIManager(
+                mainPanel,
+                item_information_label,
+                last_updated_groupbox,
+                password_history_label,
+                password_history_value,
+                save_button,
+                edit_button,
+                cancel_button,
+                save_icon,
+                edit_icon,
+                duplicate_button,
+                duplicate_icon,
+                main_group
+            );
 
             LoadAllVaults();
         }
@@ -73,76 +86,28 @@ namespace password_manager_client
         private async Task DisplayVaultDetailsAsync(Guid vaultId)
         {
             if (_previousVaultId == vaultId)
-            {
                 return;
-            }
-
             _previousVaultId = vaultId;
             var vaultData = await _vaultService.GetVaultByIdAsync(vaultId);
 
             if (vaultData.Data != null)
             {
-                if (_activeUserControl != null)
-                {
-                    mainPanel.Controls.Remove(_activeUserControl);
-                }
                 _currentVault = vaultData.Data;
-                _activeUserControl = _viewVaultUserControl;
-                main_group.Visible = false;
 
-                LoadUserControl(_viewVaultUserControl, 50);
-                LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
+                _uiManager.ClearMainPanel(_activeUserControl);
+                _uiManager.SetActiveUserControl(ref _activeUserControl, _viewVaultUserControl);
+                _uiManager.LoadUserControl(_viewVaultUserControl, 50);
+                _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
 
-                if (_activeUserControl == _viewVaultUserControl)
-                {
-                    #region Main Panel label changes
+                _uiManager.ConfigureForViewVault(
+                    hasPasswordHistory: _currentVault.PasswordHistory != null,
+                    passwordHistoryValueText: _currentVault.PasswordHistory?.ToString()
+                );
 
-                    item_information_label.Visible = true;
-                    item_information_label.Text = "ITEM INFORMATION";
-                    last_updated_groupbox.Visible = true;
-                    
-                    if(_currentVault.PasswordHistory != null)
-                    {
-                        password_history_label.Visible = true;
-                        password_history_value.Visible = true;
-                        password_history_value.Text = _currentVault.PasswordHistory.ToString();
-                    }
-                    else
-                    {
-                        password_history_label.Visible = false;
-                        password_history_value.Visible = false;
-                    }
-
-                    #endregion Main Panel label changes
-
-                    #region Button changes
-
-                    save_button.Location = edit_button.Location;
-                    save_icon.Location = edit_icon.Location;
-                    cancel_button.Location = duplicate_button.Location;
-                    save_button.Visible = false;
-                    save_icon.Visible = false;
-                    edit_button.Visible = true;
-                    edit_icon.Visible = true;
-                    duplicate_button.Visible = false;
-                    duplicate_icon.Visible = false;
-
-                    #endregion Button changes
-
-                    #region Field Values
-
-                    string decryptedPassword = DecryptionHelper.DecryptPassword(
-                        vaultData.Data.EncryptedPassword
-                    );
-
-                    _viewVaultUserControl.NameInput = vaultData.Data.Title;
-                    _viewVaultUserControl.UsernameInput = vaultData.Data.Username;
-                    _viewVaultUserControl.PasswordInput = decryptedPassword;
-                    _viewVaultUserControl.VaultId = vaultData.Data.Id;
-                    _viewVaultWebsiteUserControl.WebsiteInput = vaultData.Data.Url;
-
-                    #endregion Field Values
-                }
+                _viewVaultUserControl.NameInput = vaultData.Data.Title;
+                _viewVaultUserControl.UsernameInput = vaultData.Data.Username;
+                _viewVaultUserControl.PasswordInput = DecryptionHelper.DecryptPassword(vaultData.Data.EncryptedPassword);
+                _viewVaultWebsiteUserControl.WebsiteInput = vaultData.Data.Url;
             }
             else
             {
@@ -152,92 +117,28 @@ namespace password_manager_client
 
         private void create_vault_button_Click(object sender, EventArgs e)
         {
-            if (_activeUserControl != null)
-            {
-                mainPanel.Controls.Remove(_activeUserControl);
-            }
-            _activeUserControl = _createVaultUserControl;
-            main_group.Visible = false;
-
-            LoadUserControl(_createVaultWebsiteUserControl, 100 + _viewVaultUserControl.Height + 20);
-            mainPanel.Controls.Remove(_viewVaultWebsiteUserControl);
-
-            if (_activeUserControl == _createVaultUserControl)
-            {
-                #region Main Panel label changes
-
-                item_information_label.Visible = true;
-                item_information_label.Text = "ADD ITEM";
-                last_updated_groupbox.Visible = false;
-
-                #endregion Main Panel label changes
-
-                #region Button changes
-
-                save_button.Location = edit_button.Location;
-                save_icon.Location = edit_icon.Location;
-                cancel_button.Location = duplicate_button.Location;
-                save_button.Visible = true;
-                save_icon.Visible = true;
-                edit_button.Visible = false;
-                edit_icon.Visible = false;
-                duplicate_button.Visible = false;
-                duplicate_icon.Visible = false;
-
-                #endregion Button changes
-            }
-
-            LoadUserControl(_createVaultUserControl, 50);
+            _uiManager.SetActiveUserControl(ref _activeUserControl, _createVaultUserControl);
+            _uiManager.ConfigureForCreateVault();
+            _uiManager.ResetToMainView();
+            _uiManager.LoadUserControl(_createVaultUserControl, 50);
+            _uiManager.LoadUserControl(_createVaultWebsiteUserControl, 100 + _createVaultUserControl.Height + 20);
         }
+
         private void edit_button_Click(object sender, EventArgs e)
         {
-            #region Field Values
-
             _editVaultUserControl.NameInput = _viewVaultUserControl.NameInput;
             _editVaultUserControl.UsernameInput = _viewVaultUserControl.UsernameInput;
             _editVaultUserControl.PasswordInput = _viewVaultUserControl.PasswordInput;
-            _editVaultUserControl.VaultId = _viewVaultUserControl.VaultId;
             _editVaultWebsiteUserControl.WebsiteInput = _viewVaultWebsiteUserControl.WebsiteInput;
 
-            _editVaultUserControl.NameInputEnabled = true;
-            _editVaultUserControl.UsernameInputEnabled = true;
-            _editVaultUserControl.PasswordInputEnabled = true;
-            _editVaultWebsiteUserControl.WebsiteInputEnabled = true;
-
-            #endregion Field Values
-
-            if (_activeUserControl != null)
-            {
-                mainPanel.Controls.Remove(_activeUserControl);
-            }
-
-            _activeUserControl = _editVaultUserControl;
-            main_group.Visible = false;
-
-            LoadUserControl(_editVaultUserControl, 50);
-            LoadUserControl(_editVaultWebsiteUserControl, 60 + _editVaultUserControl.Height + 20);
-
-            #region Main Panel label changes
-
+            _uiManager.ResetToMainView();
+            _uiManager.SetActiveUserControl(ref _activeUserControl, _editVaultUserControl);
+            _uiManager.ConfigureForEditVault();
+            _uiManager.LoadUserControl(_editVaultUserControl, 50);
+            _uiManager.LoadUserControl(_editVaultWebsiteUserControl, 60 + _editVaultUserControl.Height + 20);
             item_information_label.Visible = true;
             item_information_label.Text = "EDIT ITEM";
             last_updated_groupbox.Visible = true;
-
-            #endregion Main Panel label changes
-
-            #region Button changes
-
-            save_button.Location = edit_button.Location;
-            save_icon.Location = edit_icon.Location;
-            cancel_button.Location = duplicate_button.Location;
-            save_button.Visible = true;
-            save_icon.Visible = true;
-            edit_button.Visible = false;
-            edit_icon.Visible = false;
-            duplicate_button.Visible = false;
-            duplicate_icon.Visible = false;
-
-            #endregion Button changes
         }
 
         private async void save_button_Click(object sender, EventArgs e)
@@ -251,130 +152,91 @@ namespace password_manager_client
                     Title = _createVaultUserControl.NameInput,
                     EncryptedPassword = _createVaultUserControl.PasswordInput,
                     Username = _createVaultUserControl.UsernameInput,
-                    Url = !string.IsNullOrEmpty(_createVaultWebsiteUserControl.WebsiteInput) ? _createVaultWebsiteUserControl.WebsiteInput : null
+                    Url = _createVaultWebsiteUserControl.WebsiteInput
                 };
 
                 var result = await _vaultService.CreateAsync(vault);
 
                 if (result)
                 {
-                    MessageBox.Show("Vault created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Form parentForm = this.FindForm();
+                    ToastForm.ShowToast(parentForm, "Vault created successfully!", "success");
                     LoadAllVaults();
+                    _uiManager.ResetToMainView();
                 }
                 else
                 {
-                    MessageBox.Show("An error occurred while creating the vault.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Form parentForm = this.FindForm();
+                    ToastForm.ShowToast(parentForm, "An error occurred.", "error");
                 }
             }
             else if (_activeUserControl == _editVaultUserControl)
             {
                 string decryptedPassword = null;
+
                 if (!string.IsNullOrEmpty(_currentVault.EncryptedPassword))
                 {
-                    decryptedPassword = DecryptionHelper.DecryptPassword(
-                        _currentVault.EncryptedPassword
-                    );
+                    decryptedPassword = DecryptionHelper.DecryptPassword(_currentVault.EncryptedPassword);
                 }
 
                 var vault = new UpdateVaultDto
                 {
-                    Id = _editVaultUserControl.VaultId,
+                    Id = _currentVault.Id,
                     ItemType = 1,
                     Title = _editVaultUserControl.NameInput,
                     EncryptedPassword = decryptedPassword != _editVaultUserControl.PasswordInput ? _editVaultUserControl.PasswordInput : null,
                     Username = _editVaultUserControl.UsernameInput,
-                    Url = !string.IsNullOrEmpty(_editVaultWebsiteUserControl.WebsiteInput) ? _editVaultWebsiteUserControl.WebsiteInput : null
+                    Url = _editVaultWebsiteUserControl.WebsiteInput
                 };
 
                 var result = await _vaultService.UpdateVaultAsync(vault);
 
                 if (result.Data != null)
                 {
-                    MessageBox.Show("Vault updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Form parentForm = this.FindForm();
+                    ToastForm.ShowToast(parentForm, "Vault updated successfully!", "success");
                     _previousVaultId = Guid.Empty;
                     DisplayVaultDetails(result.Data);
                     LoadAllVaults();
+                    _uiManager.ResetToMainView(); 
+                }
+                else
+                {
+                    Form parentForm = this.FindForm();
+                    ToastForm.ShowToast(parentForm, "An error occurred.", "error");
                 }
             }
         }
 
-        private void LoadUserControl(UserControl userControl, int topPosition)
-        {
-            mainPanel.Controls.Add(userControl);
-
-            userControl.Dock = DockStyle.None;
-            userControl.Anchor = AnchorStyles.None;
-
-            userControl.Left = (mainPanel.ClientSize.Width - userControl.Width) / 2;
-            userControl.Top = topPosition;
-            userControl.BringToFront();
-        }
-
         private void cancel_button_Click(object sender, EventArgs e)
         {
-            mainPanel.Controls.Remove(_activeUserControl);
-            mainPanel.Controls.Remove(_viewVaultWebsiteUserControl);
-            mainPanel.Controls.Remove(_editVaultWebsiteUserControl);
-            mainPanel.Controls.Remove(_createVaultWebsiteUserControl);
-            mainPanel.Controls.Remove(_viewVaultUserControl);
-            mainPanel.Controls.Remove(_editVaultUserControl);
-            mainPanel.Controls.Remove(_createVaultUserControl);
-            item_information_label.Visible = false;
-            last_updated_groupbox.Visible = false;
-            main_group.Visible = true;
-            _previousVaultId = Guid.Empty;
+            _uiManager.ResetToMainView();
         }
 
         private void DisplayVaultDetails(Vault vault)
         {
             if (_activeUserControl != null)
             {
-                mainPanel.Controls.Remove(_activeUserControl);
+                _uiManager.ClearMainPanel(_activeUserControl);
             }
+
+            _currentVault = vault;
             _activeUserControl = _viewVaultUserControl;
 
-            LoadUserControl(_viewVaultUserControl, 50);
-            LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
+            _uiManager.ConfigureForViewVault(
+                hasPasswordHistory: vault.PasswordHistory != null,
+                passwordHistoryValueText: vault.PasswordHistory?.ToString()
+            );
 
-            if (_activeUserControl == _viewVaultUserControl)
-            {
-                #region Main Panel label changes
+            _uiManager.LoadUserControl(_viewVaultUserControl, 50);
+            _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
 
-                item_information_label.Visible = true;
-                item_information_label.Text = "ITEM INFORMATION";
-                last_updated_groupbox.Visible = true;
-
-                #endregion Main Panel label changes
-
-                #region Button changes
-
-                save_button.Location = edit_button.Location;
-                save_icon.Location = edit_icon.Location;
-                cancel_button.Location = duplicate_button.Location;
-                save_button.Visible = false;
-                save_icon.Visible = false;
-                edit_button.Visible = true;
-                edit_icon.Visible = true;
-                duplicate_button.Visible = false;
-                duplicate_icon.Visible = false;
-
-                #endregion Button changes
-
-                #region Field Values
-
-                string decryptedPassword = DecryptionHelper.DecryptPassword(
-                    vault.EncryptedPassword
-                );
-
-                _viewVaultUserControl.NameInput = vault.Title;
-                _viewVaultUserControl.UsernameInput = vault.Username;
-                _viewVaultUserControl.PasswordInput = decryptedPassword;
-                _viewVaultUserControl.VaultId = vault.Id;
-                _viewVaultWebsiteUserControl.WebsiteInput = vault.Url;
-
-                #endregion Field Values
-            }
-            
+            string decryptedPassword = DecryptionHelper.DecryptPassword(vault.EncryptedPassword);
+            _viewVaultUserControl.NameInput = vault.Title;
+            _viewVaultUserControl.UsernameInput = vault.Username;
+            _viewVaultUserControl.PasswordInput = decryptedPassword;
+            _viewVaultUserControl.VaultId = vault.Id;
+            _viewVaultWebsiteUserControl.WebsiteInput = vault.Url;
         }
     }
 }

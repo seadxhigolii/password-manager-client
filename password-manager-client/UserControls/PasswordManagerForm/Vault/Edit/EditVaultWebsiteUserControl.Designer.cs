@@ -49,7 +49,7 @@
             // 
             // website_input
             // 
-            website_input.Enabled = false;
+            website_input.Enabled = true;
             website_input.Location = new Point(18, 34);
             website_input.Name = "website_input";
             website_input.Size = new Size(487, 23);

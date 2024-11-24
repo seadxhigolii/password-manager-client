@@ -1,11 +1,7 @@
 using password_manager_client.Forms;
-using System;
-using System.IO;
-using System.Windows.Forms;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using password_manager_client.Middlewares;
 
 namespace password_manager_client
 {

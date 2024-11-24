@@ -1,4 +1,4 @@
-﻿using password_manager_client.Helpers;
+﻿using password_manager_client.Forms.Shared;
 
 namespace password_manager_client.UserControls
 {
@@ -19,8 +19,6 @@ namespace password_manager_client.UserControls
                 ToastForm.ShowToast(parentForm, "Copied to clipboard!");
             }
         }
-
-
 
         private void password_copy_button_Click(object sender, EventArgs e)
         {
