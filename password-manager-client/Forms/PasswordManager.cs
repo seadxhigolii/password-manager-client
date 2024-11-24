@@ -87,6 +87,7 @@ namespace password_manager_client
         {
             if (_previousVaultId == vaultId)
                 return;
+
             _previousVaultId = vaultId;
             var vaultData = await _vaultService.GetVaultByIdAsync(vaultId);
 
@@ -94,24 +95,30 @@ namespace password_manager_client
             {
                 _currentVault = vaultData.Data;
 
-                _uiManager.ClearMainPanel(_activeUserControl);
+                _uiManager.ResetToMainView();
                 _uiManager.SetActiveUserControl(ref _activeUserControl, _viewVaultUserControl);
-                _uiManager.LoadUserControl(_viewVaultUserControl, 50);
-                _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
-
-                _uiManager.ConfigureForViewVault(
-                    hasPasswordHistory: _currentVault.PasswordHistory != null,
-                    passwordHistoryValueText: _currentVault.PasswordHistory?.ToString()
-                );
 
                 _viewVaultUserControl.NameInput = vaultData.Data.Title;
                 _viewVaultUserControl.UsernameInput = vaultData.Data.Username;
                 _viewVaultUserControl.PasswordInput = DecryptionHelper.DecryptPassword(vaultData.Data.EncryptedPassword);
                 _viewVaultWebsiteUserControl.WebsiteInput = vaultData.Data.Url;
+
+                _uiManager.LoadUserControl(_viewVaultUserControl, 50);
+
+                if (!string.IsNullOrEmpty(vaultData.Data.Url))
+                {
+                    _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
+                }
+
+                _uiManager.ConfigureForViewVault(
+                    hasPasswordHistory: _currentVault.PasswordHistory != null,
+                    passwordHistoryValueText: _currentVault.PasswordHistory?.ToString()
+                );
             }
             else
             {
-                MessageBox.Show(vaultData.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Form parentForm = this.FindForm();
+                ToastForm.ShowToast(parentForm, "An error occurred", "error");
             }
         }
 
@@ -143,6 +150,8 @@ namespace password_manager_client
 
         private async void save_button_Click(object sender, EventArgs e)
         {
+            Form parentForm = this.FindForm();
+
             if (_activeUserControl == _createVaultUserControl)
             {
                 var vault = new CreateVaultDto
@@ -155,18 +164,22 @@ namespace password_manager_client
                     Url = _createVaultWebsiteUserControl.WebsiteInput
                 };
 
+                if (string.IsNullOrWhiteSpace(vault.Title))
+                {
+                    ToastForm.ShowToast(parentForm, "Error: Name can't be empty.", "error");
+                    return;
+                }
+
                 var result = await _vaultService.CreateAsync(vault);
 
                 if (result)
                 {
-                    Form parentForm = this.FindForm();
                     ToastForm.ShowToast(parentForm, "Vault created successfully!", "success");
                     LoadAllVaults();
                     _uiManager.ResetToMainView();
                 }
                 else
                 {
-                    Form parentForm = this.FindForm();
                     ToastForm.ShowToast(parentForm, "An error occurred.", "error");
                 }
             }
@@ -189,11 +202,16 @@ namespace password_manager_client
                     Url = _editVaultWebsiteUserControl.WebsiteInput
                 };
 
+                if (string.IsNullOrWhiteSpace(vault.Title))
+                {
+                    ToastForm.ShowToast(parentForm, "Error: Name can't be empty.", "error");
+                    return;
+                }
+
                 var result = await _vaultService.UpdateVaultAsync(vault);
 
                 if (result.Data != null)
                 {
-                    Form parentForm = this.FindForm();
                     ToastForm.ShowToast(parentForm, "Vault updated successfully!", "success");
                     _previousVaultId = Guid.Empty;
                     DisplayVaultDetails(result.Data);
@@ -202,7 +220,6 @@ namespace password_manager_client
                 }
                 else
                 {
-                    Form parentForm = this.FindForm();
                     ToastForm.ShowToast(parentForm, "An error occurred.", "error");
                 }
             }
@@ -217,16 +234,11 @@ namespace password_manager_client
         {
             if (_activeUserControl != null)
             {
-                _uiManager.ClearMainPanel(_activeUserControl);
+                _uiManager.ResetToMainView();
             }
 
             _currentVault = vault;
             _activeUserControl = _viewVaultUserControl;
-
-            _uiManager.ConfigureForViewVault(
-                hasPasswordHistory: vault.PasswordHistory != null,
-                passwordHistoryValueText: vault.PasswordHistory?.ToString()
-            );
 
             _uiManager.LoadUserControl(_viewVaultUserControl, 50);
             _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
@@ -237,6 +249,11 @@ namespace password_manager_client
             _viewVaultUserControl.PasswordInput = decryptedPassword;
             _viewVaultUserControl.VaultId = vault.Id;
             _viewVaultWebsiteUserControl.WebsiteInput = vault.Url;
+
+            _uiManager.ConfigureForViewVault(
+                hasPasswordHistory: vault.PasswordHistory != null,
+                passwordHistoryValueText: vault.PasswordHistory?.ToString()
+            );
         }
     }
 }

@@ -49,9 +49,19 @@
 
         public void ConfigureForViewVault(bool hasPasswordHistory, string passwordHistoryValueText)
         {
+            _lastUpdatedGroupBox.Top = 0;
+            _lastUpdatedGroupBox.Left = 0;
+
             _itemInformationLabel.Visible = true;
             _itemInformationLabel.Text = "ITEM INFORMATION";
+
+            if (!_mainPanel.Controls.Contains(_lastUpdatedGroupBox))
+            {
+                _mainPanel.Controls.Add(_lastUpdatedGroupBox);
+            }
+
             _lastUpdatedGroupBox.Visible = true;
+            _lastUpdatedGroupBox.BringToFront();
 
             _passwordHistoryLabel.Visible = hasPasswordHistory;
             _passwordHistoryValue.Visible = hasPasswordHistory;
@@ -64,7 +74,10 @@
             );
 
             _mainGroup.Visible = false;
+
+            PositionGroupBoxBelowLastUserControl(_lastUpdatedGroupBox, 30);
         }
+
 
         public void ConfigureForCreateVault()
         {
@@ -156,5 +169,26 @@
                 _saveIcon.Location = _editIcon.Location;
             }
         }
+        private void PositionGroupBoxBelowLastUserControl(Control groupBox, int offset)
+        {
+            var lastUserControl = _mainPanel.Controls
+                .OfType<UserControl>()
+                .Where(ctrl => ctrl.Visible == true)
+                .OrderByDescending(control => control.Bottom)
+                .FirstOrDefault();
+
+            if (lastUserControl != null)
+            {
+                groupBox.Top = lastUserControl.Bottom + offset;
+                groupBox.Left = lastUserControl.Left;
+            }
+            else
+            {
+                groupBox.Top = offset;
+                groupBox.Left = 0;
+            }
+        }
     }
+
+
 }

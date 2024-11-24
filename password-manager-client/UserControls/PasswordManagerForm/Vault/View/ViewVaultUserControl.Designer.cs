@@ -1,4 +1,6 @@
-﻿namespace password_manager_client.UserControls
+﻿using password_manager_client.Utils;
+
+namespace password_manager_client.UserControls
 {
     partial class ViewVaultUserControl
     {
@@ -172,6 +174,7 @@
             {
                 username_input.Text = value;
                 UsernameVisible = !string.IsNullOrEmpty(value);
+                AdjustLayout();
             }
         }
 
@@ -192,6 +195,7 @@
             {
                 password_input.Text = value;
                 PasswordVisible = !string.IsNullOrEmpty(value);
+                AdjustLayout();
             }
         }
 
@@ -218,5 +222,74 @@
         private PictureBox username_copy_button;
         private PictureBox password_show_button;
         private PictureBox password_copy_button;
+
+        private void AdjustLayout()
+        {
+            ResetLayout();
+
+            bool isUsernameEmpty = string.IsNullOrEmpty(username_input.Text);
+            bool isPasswordEmpty = string.IsNullOrEmpty(password_input.Text);
+
+            if (isUsernameEmpty && !isPasswordEmpty) // Case 1
+            {
+                label2.Visible = false;
+                username_input.Visible = false;
+                username_copy_button.Visible = false;
+
+                label3.Location = ViewVaultLayoutConstants.UsernameLabelPosition;
+                password_input.Location = ViewVaultLayoutConstants.UsernameInputPosition;
+                password_copy_button.Location = new Point(ViewVaultLayoutConstants.PasswordCopyButtonPosition.X, ViewVaultLayoutConstants.UsernameInputPosition.Y);
+                password_show_button.Location = new Point(ViewVaultLayoutConstants.PasswordShowButtonPosition.X, ViewVaultLayoutConstants.UsernameInputPosition.Y);
+
+                Height = ViewVaultLayoutConstants.DefaultHeight - ViewVaultLayoutConstants.RowHeightReduction;
+            }
+            else if (!isUsernameEmpty && isPasswordEmpty)
+            {
+                label3.Visible = false;
+                password_input.Visible = false;
+                password_copy_button.Visible = false;
+                password_show_button.Visible = false;
+
+                Height = ViewVaultLayoutConstants.DefaultHeight - ViewVaultLayoutConstants.RowHeightReduction;
+            }
+            else if (isUsernameEmpty && isPasswordEmpty)
+            {
+                label2.Visible = false;
+                username_input.Visible = false;
+                username_copy_button.Visible = false;
+
+                label3.Visible = false;
+                password_input.Visible = false;
+                password_copy_button.Visible = false;
+                password_show_button.Visible = false;
+
+                Height = ViewVaultLayoutConstants.DefaultHeight - (2 * ViewVaultLayoutConstants.RowHeightReduction);
+            }
+        }
+
+
+        private void ResetLayout()
+        {
+            label2.Location = ViewVaultLayoutConstants.UsernameLabelPosition;
+            username_input.Location = ViewVaultLayoutConstants.UsernameInputPosition;
+            username_copy_button.Location = ViewVaultLayoutConstants.UsernameCopyButtonPosition;
+
+            label3.Location = ViewVaultLayoutConstants.PasswordLabelPosition;
+            password_input.Location = ViewVaultLayoutConstants.PasswordInputPosition;
+            password_show_button.Location = ViewVaultLayoutConstants.PasswordShowButtonPosition;
+            password_copy_button.Location = ViewVaultLayoutConstants.PasswordCopyButtonPosition;
+
+            label2.Visible = true;
+            username_input.Visible = true;
+            username_copy_button.Visible = true;
+
+            label3.Visible = true;
+            password_input.Visible = true;
+            password_show_button.Visible = true;
+            password_copy_button.Visible = true;
+
+            Height = ViewVaultLayoutConstants.DefaultHeight;
+        }
+
     }
 }
