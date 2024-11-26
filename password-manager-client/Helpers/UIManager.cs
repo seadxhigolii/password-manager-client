@@ -92,6 +92,7 @@
             );
 
             _mainGroup.Visible = false;
+            _mainPanel.PerformLayout();
         }
 
         public void ConfigureForEditVault()
@@ -140,15 +141,26 @@
 
         public void LoadUserControl(UserControl userControl, int topPosition)
         {
+            // Add the UserControl to the mainPanel
             _mainPanel.Controls.Add(userControl);
 
+            // Ensure UserControl is not docked
             userControl.Dock = DockStyle.None;
-            userControl.Anchor = AnchorStyles.None;
 
+            // Center the UserControl horizontally within mainPanel
             userControl.Left = (_mainPanel.ClientSize.Width - userControl.Width) / 2;
+
+            // Set the vertical position
             userControl.Top = topPosition;
+
+            // Ensure the UserControl is brought to the front and visible
             userControl.BringToFront();
+            userControl.Visible = true;
+
+            // Force layout update to ensure proper positioning
+            _mainPanel.PerformLayout();
         }
+
 
         private void ConfigureButtons(bool showSave, bool showEdit, bool showDuplicate)
         {

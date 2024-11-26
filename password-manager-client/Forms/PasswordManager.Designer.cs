@@ -326,6 +326,7 @@ namespace password_manager_client
             // 
             // mainPanel
             // 
+            mainPanel.AutoScroll = true;
             mainPanel.BackColor = Color.Gainsboro;
             mainPanel.Controls.Add(main_group);
             mainPanel.Controls.Add(last_updated_groupbox);

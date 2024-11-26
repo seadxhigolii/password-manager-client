@@ -21,6 +21,7 @@ namespace password_manager_client
         private readonly ViewVaultWebsiteUserControl _viewVaultWebsiteUserControl;
         private readonly EditVaultWebsiteUserControl _editVaultWebsiteUserControl;
         private readonly CreateVaultWebsiteUserControl _createVaultWebsiteUserControl;
+        private readonly CreateSecureNoteUserControl _createSecureNoteUserControl;
         private UserControl _activeUserControl;
         private Vault _currentVault;
         private Guid _previousVaultId = Guid.Empty;
@@ -31,11 +32,11 @@ namespace password_manager_client
 
             _vaultService = new VaultService(new HttpClient());
             _viewVaultUserControl = new ViewVaultUserControl();
-            _createVaultUserControl = new CreateVaultUserControl();
             _editVaultUserControl = new EditVaultUserControl();
             _viewVaultWebsiteUserControl = new ViewVaultWebsiteUserControl();
             _editVaultWebsiteUserControl = new EditVaultWebsiteUserControl();
             _createVaultWebsiteUserControl = new CreateVaultWebsiteUserControl();
+            _createSecureNoteUserControl = new CreateSecureNoteUserControl();
 
             _uiManager = new UIManager(
                 mainPanel,
@@ -51,6 +52,11 @@ namespace password_manager_client
                 duplicate_button,
                 duplicate_icon,
                 main_group
+            );
+
+            _createVaultUserControl = new CreateVaultUserControl(
+                _createVaultWebsiteUserControl,
+                _createSecureNoteUserControl
             );
 
             LoadAllVaults();
@@ -93,27 +99,21 @@ namespace password_manager_client
 
             if (vaultData.Data != null)
             {
-                _currentVault = vaultData.Data;
-
-                _uiManager.ResetToMainView();
-                _uiManager.SetActiveUserControl(ref _activeUserControl, _viewVaultUserControl);
-
-                _viewVaultUserControl.NameInput = vaultData.Data.Title;
-                _viewVaultUserControl.UsernameInput = vaultData.Data.Username;
-                _viewVaultUserControl.PasswordInput = DecryptionHelper.DecryptPassword(vaultData.Data.EncryptedPassword);
-                _viewVaultWebsiteUserControl.WebsiteInput = vaultData.Data.Url;
-
-                _uiManager.LoadUserControl(_viewVaultUserControl, 50);
-
-                if (!string.IsNullOrEmpty(vaultData.Data.Url))
+                switch (vaultData.Data.ItemType)
                 {
-                    _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
+                    case Enum.VaultItemTypeEnum.Password:
+                        DisplayPasswordTypeVaultDetails(vaultData.Data);
+                        break;
+                    case Enum.VaultItemTypeEnum.SecureNote:
+                        DisplayPasswordTypeVaultDetails(vaultData.Data);
+                        break;
+                    case Enum.VaultItemTypeEnum.BankCard:
+                        break;
+                    default:
+                        break;
                 }
-
-                _uiManager.ConfigureForViewVault(
-                    hasPasswordHistory: _currentVault.PasswordHistory != null,
-                    passwordHistoryValueText: _currentVault.PasswordHistory?.ToString()
-                );
+                    
+              
             }
             else
             {
@@ -125,10 +125,20 @@ namespace password_manager_client
         private void create_vault_button_Click(object sender, EventArgs e)
         {
             _uiManager.SetActiveUserControl(ref _activeUserControl, _createVaultUserControl);
-            _uiManager.ConfigureForCreateVault();
             _uiManager.ResetToMainView();
+
+            // Add and position UserControls
             _uiManager.LoadUserControl(_createVaultUserControl, 50);
-            _uiManager.LoadUserControl(_createVaultWebsiteUserControl, 100 + _createVaultUserControl.Height + 20);
+            _uiManager.LoadUserControl(_createVaultWebsiteUserControl, 80 + _createVaultUserControl.Height);
+            _uiManager.LoadUserControl(_createSecureNoteUserControl, 70 + _createVaultUserControl.Height);
+
+            _createSecureNoteUserControl.Visible = false;
+            _createVaultWebsiteUserControl.Visible = false;
+
+            _uiManager.ConfigureForCreateVault();
+
+            // Force layout update
+            mainPanel.PerformLayout();
         }
 
         private void edit_button_Click(object sender, EventArgs e)
@@ -253,6 +263,31 @@ namespace password_manager_client
             _uiManager.ConfigureForViewVault(
                 hasPasswordHistory: vault.PasswordHistory != null,
                 passwordHistoryValueText: vault.PasswordHistory?.ToString()
+            );
+        }
+
+        private void DisplayPasswordTypeVaultDetails(Vault vaultData)
+        {
+            _currentVault = vaultData;
+
+            _uiManager.ResetToMainView();
+            _uiManager.SetActiveUserControl(ref _activeUserControl, _viewVaultUserControl);
+
+            _viewVaultUserControl.NameInput = vaultData.Title;
+            _viewVaultUserControl.UsernameInput = vaultData.Username;
+            _viewVaultUserControl.PasswordInput = DecryptionHelper.DecryptPassword(vaultData.EncryptedPassword);
+            _viewVaultWebsiteUserControl.WebsiteInput = vaultData.Url;
+
+            _uiManager.LoadUserControl(_viewVaultUserControl, 50);
+
+            if (!string.IsNullOrEmpty(vaultData.Url))
+            {
+                _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
+            }
+
+            _uiManager.ConfigureForViewVault(
+                hasPasswordHistory: _currentVault.PasswordHistory != null,
+                passwordHistoryValueText: _currentVault.PasswordHistory?.ToString()
             );
         }
     }
