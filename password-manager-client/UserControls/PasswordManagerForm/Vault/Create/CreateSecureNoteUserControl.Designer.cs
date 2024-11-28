@@ -61,7 +61,7 @@
             notes_label.AutoSize = true;
             notes_label.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             notes_label.ForeColor = SystemColors.ControlDarkDark;
-            notes_label.Location = new Point(14, 14);
+            notes_label.Location = new Point(7, 14);
             notes_label.Name = "notes_label";
             notes_label.Size = new Size(59, 21);
             notes_label.TabIndex = 1;
