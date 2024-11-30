@@ -24,6 +24,7 @@
         public string WebsiteInput
         {
             get { return website_input.Text; }
+            set { website_input.Text = value; }
         }
         #endregion 
 

@@ -4,6 +4,7 @@
     {
         private CreateSecureNoteUserControl _createSecureNoteUserControl;
         private CreateVaultWebsiteUserControl _createVaultWebsiteUserControl;
+        private readonly int _defaultSecureNotePositionY = 323;
 
         public CreateVaultUserControl(
             CreateVaultWebsiteUserControl createVaultWebsiteUserControl,
@@ -14,7 +15,6 @@
             _createVaultWebsiteUserControl = createVaultWebsiteUserControl;
             _createSecureNoteUserControl = createSecureNoteUserControl;
 
-
             Controls.Add(_createVaultWebsiteUserControl);
             Controls.Add(_createSecureNoteUserControl);
 
@@ -22,8 +22,7 @@
             _createVaultWebsiteUserControl.Visible = false;
 
             vault_type_dropdown.SelectedIndexChanged += VaultTypeDropdown_SelectedIndexChanged;
-            vault_type_dropdown.SelectedItem = "Login";
-            InitializeDropdown();
+
         }
 
         private void InitializeDropdown()
@@ -34,7 +33,6 @@
             _createSecureNoteUserControl.Location = new Point(
                 _createVaultWebsiteUserControl.Location.X,
                 _createVaultWebsiteUserControl.Location.Y + _createVaultWebsiteUserControl.Height + 20);
-
         }
 
         private void VaultTypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
@@ -46,13 +44,19 @@
                 _createVaultWebsiteUserControl.Visible = false;
                 _createSecureNoteUserControl.Visible = true;
 
-                int newY = GetBottomMostControlY() + 80;
-                _createSecureNoteUserControl.Location = new Point(_createSecureNoteUserControl.Location.X, newY);
+                ResetInputsAndLabels();
+
+                int newY = 323;
+                _createSecureNoteUserControl.Location = new Point(
+                    _createSecureNoteUserControl.Location.X,
+                    _defaultSecureNotePositionY);
             }
             else if (selectedValue == "Login")
             {
                 _createVaultWebsiteUserControl.Visible = true;
                 _createSecureNoteUserControl.Visible = true;
+
+                ResetInputsAndLabels();
 
                 _createSecureNoteUserControl.Location = new Point(
                     _createVaultWebsiteUserControl.Location.X,
@@ -60,23 +64,30 @@
             }
         }
 
-        private int GetBottomMostControlY()
+        private void ResetInputsAndLabels()
         {
-            int maxY = 0;
-
-            foreach (Control control in Controls)
-            {
-                if (control.Visible)
-                {
-                    int bottomY = control.Location.Y + control.Height;
-                    if (bottomY > maxY)
-                    {
-                        maxY = bottomY;
-                    }
-                }
-            }
-
-            return maxY;
+            _createVaultWebsiteUserControl.WebsiteInput = null;
+            _createSecureNoteUserControl.NotesInputText = null;
+            _createSecureNoteUserControl.NotesLabelVisible = true;
         }
+
+        //private int GetBottomMostControlY()
+        //{
+        //    int maxY = 0;
+
+        //    foreach (Control control in Controls)
+        //    {
+        //        if (control.Visible)
+        //        {
+        //            int bottomY = control.Location.Y + control.Height;
+        //            if (bottomY > maxY)
+        //            {
+        //                maxY = bottomY;
+        //            }
+        //        }
+        //    }
+
+        //    return maxY;
+        //}
     }
 }
