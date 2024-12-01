@@ -68,7 +68,7 @@ namespace password_manager_client.Helpers.Decryption
             
         }
 
-        public static string DecryptPassword(string encryptedPasswordBase64)
+        public static string Decrypt(string encryptedPasswordBase64)
         {
             string privateKey = Session.PrivateKey ?? throw new InvalidOperationException("Private key is not available in the session.");
 

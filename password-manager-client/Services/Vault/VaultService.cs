@@ -19,8 +19,6 @@ namespace password_manager_client.Services.Vault
         {
             try
             {
-                vault.EncryptedPassword = EncryptionHelper.EncryptWithRSA(vault.EncryptedPassword, Session.PublicKey);
-
                 string json = JsonSerializer.Serialize(vault, Program.JsonOptions);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -42,8 +40,7 @@ namespace password_manager_client.Services.Vault
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
-            }
-            
+            }            
         }
 
         public async Task<Response<IList<Models.Vault>>> GetAllByUserIdAsync(Guid userId)

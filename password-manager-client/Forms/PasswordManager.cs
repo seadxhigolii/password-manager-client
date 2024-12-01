@@ -1,6 +1,7 @@
 ﻿using password_manager_client.Forms.Shared;
 using password_manager_client.Helpers;
 using password_manager_client.Helpers.Decryption;
+using password_manager_client.Helpers.Encryption;
 using password_manager_client.Models;
 using password_manager_client.Services.Vault;
 using password_manager_client.Services.Vault.Dto;
@@ -8,6 +9,9 @@ using password_manager_client.UserControls;
 using password_manager_client.UserControls.PasswordManagerForm.PasswordWebsite;
 using password_manager_client.UserControls.PasswordManagerForm.Vault.Create;
 using password_manager_client.UserControls.PasswordManagerForm.Vault.Edit;
+using password_manager_client.UserControls.PasswordManagerForm.Vault.View;
+using password_manager_client.Utils;
+using System.Windows.Forms;
 
 namespace password_manager_client
 {
@@ -22,6 +26,7 @@ namespace password_manager_client
         private readonly EditVaultWebsiteUserControl _editVaultWebsiteUserControl;
         private readonly CreateVaultWebsiteUserControl _createVaultWebsiteUserControl;
         private readonly CreateSecureNoteUserControl _createSecureNoteUserControl;
+        private readonly ViewSecureNoteUserControl _viewSecureNoteUserControl;
         private UserControl _activeUserControl;
         private Vault _currentVault;
         private Guid _previousVaultId = Guid.Empty;
@@ -37,6 +42,7 @@ namespace password_manager_client
             _editVaultWebsiteUserControl = new EditVaultWebsiteUserControl();
             _createVaultWebsiteUserControl = new CreateVaultWebsiteUserControl();
             _createSecureNoteUserControl = new CreateSecureNoteUserControl();
+            _viewSecureNoteUserControl = new ViewSecureNoteUserControl();
 
             _uiManager = new UIManager(
                 mainPanel,
@@ -105,7 +111,7 @@ namespace password_manager_client
                         DisplayPasswordTypeVaultDetails(vaultData.Data);
                         break;
                     case Enum.VaultItemTypeEnum.SecureNote:
-                        DisplayPasswordTypeVaultDetails(vaultData.Data);
+                        DisplaySecureNoteTypeVaultDetails(vaultData.Data);
                         break;
                     case Enum.VaultItemTypeEnum.BankCard:
                         break;
@@ -169,9 +175,18 @@ namespace password_manager_client
                     UserId = Session.UserId,
                     ItemType = 1,
                     Title = _createVaultUserControl.NameInput,
-                    EncryptedPassword = _createVaultUserControl.PasswordInput,
-                    Username = _createVaultUserControl.UsernameInput,
-                    Url = _createVaultWebsiteUserControl.WebsiteInput
+                    EncryptedPassword = string.IsNullOrWhiteSpace(_createVaultUserControl.PasswordInput)
+                        ? null
+                        : EncryptionHelper.EncryptWithRSA(_createVaultUserControl.PasswordInput, Session.PublicKey),
+                                    Username = string.IsNullOrWhiteSpace(_createVaultUserControl.UsernameInput)
+                        ? null
+                        : _createVaultUserControl.UsernameInput,
+                                    Url = string.IsNullOrWhiteSpace(_createVaultWebsiteUserControl.WebsiteInput)
+                        ? null
+                        : _createVaultWebsiteUserControl.WebsiteInput,
+                                    EncryptedNotes = string.IsNullOrWhiteSpace(_createSecureNoteUserControl.NotesInputText)
+                        ? null
+                        : EncryptionHelper.EncryptWithRSA(_createSecureNoteUserControl.NotesInputText, Session.PublicKey)
                 };
 
                 if (string.IsNullOrWhiteSpace(vault.Title))
@@ -199,7 +214,7 @@ namespace password_manager_client
 
                 if (!string.IsNullOrEmpty(_currentVault.EncryptedPassword))
                 {
-                    decryptedPassword = DecryptionHelper.DecryptPassword(_currentVault.EncryptedPassword);
+                    decryptedPassword = DecryptionHelper.Decrypt(_currentVault.EncryptedPassword);
                 }
 
                 var vault = new UpdateVaultDto
@@ -253,14 +268,14 @@ namespace password_manager_client
             _uiManager.LoadUserControl(_viewVaultUserControl, 50);
             _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
 
-            string decryptedPassword = DecryptionHelper.DecryptPassword(vault.EncryptedPassword);
+            string decryptedPassword = DecryptionHelper.Decrypt(vault.EncryptedPassword);
             _viewVaultUserControl.NameInput = vault.Title;
             _viewVaultUserControl.UsernameInput = vault.Username;
             _viewVaultUserControl.PasswordInput = decryptedPassword;
             _viewVaultUserControl.VaultId = vault.Id;
             _viewVaultWebsiteUserControl.WebsiteInput = vault.Url;
 
-            _uiManager.ConfigureForViewVault(
+            _uiManager.ConfigureForViewLoginTypeVault(
                 hasPasswordHistory: vault.PasswordHistory != null,
                 passwordHistoryValueText: vault.PasswordHistory?.ToString()
             );
@@ -275,7 +290,7 @@ namespace password_manager_client
 
             _viewVaultUserControl.NameInput = vaultData.Title;
             _viewVaultUserControl.UsernameInput = vaultData.Username;
-            _viewVaultUserControl.PasswordInput = DecryptionHelper.DecryptPassword(vaultData.EncryptedPassword);
+            _viewVaultUserControl.PasswordInput = DecryptionHelper.Decrypt(vaultData.EncryptedPassword);
             _viewVaultWebsiteUserControl.WebsiteInput = vaultData.Url;
 
             _uiManager.LoadUserControl(_viewVaultUserControl, 50);
@@ -285,10 +300,41 @@ namespace password_manager_client
                 _uiManager.LoadUserControl(_viewVaultWebsiteUserControl, 60 + _viewVaultUserControl.Height + 20);
             }
 
-            _uiManager.ConfigureForViewVault(
+            _uiManager.ConfigureForViewLoginTypeVault(
                 hasPasswordHistory: _currentVault.PasswordHistory != null,
                 passwordHistoryValueText: _currentVault.PasswordHistory?.ToString()
             );
+        }
+
+        private void DisplaySecureNoteTypeVaultDetails(Vault vaultData)
+        {
+            _currentVault = vaultData;
+            _viewSecureNoteUserControl.Location = new Point((mainPanel.ClientSize.Width - _viewSecureNoteUserControl.Width) / 2, 0);
+
+            _uiManager.ResetToMainView();
+
+            _viewVaultUserControl.UsernameVisible = false;
+            _viewVaultUserControl.UsernameInput = null;
+
+            _viewVaultUserControl.PasswordVisible = false;
+            _viewVaultUserControl.PasswordInput = null;
+
+            _uiManager.SetActiveUserControl(ref _activeUserControl, _viewVaultUserControl);
+
+            _viewVaultUserControl.NameInput = _currentVault.Title;
+            _viewVaultUserControl.PasswordInput = DecryptionHelper.Decrypt(_currentVault.EncryptedPassword);
+            _viewVaultWebsiteUserControl.WebsiteInput = _currentVault.Url;
+            _uiManager.LoadUserControl(_viewVaultUserControl, 50);
+            _uiManager.LoadUserControl(_viewSecureNoteUserControl, _viewVaultUserControl.Height + 50);
+            _viewSecureNoteUserControl.NotesLabelVisible = true;
+            _viewSecureNoteUserControl.NotesInputVisible = true;
+            _viewSecureNoteUserControl.NotesInputText = DecryptionHelper.Decrypt(_currentVault.EncryptedNotes);
+
+            _uiManager.ConfigureForViewLoginTypeVault(
+                hasPasswordHistory: _currentVault.PasswordHistory != null,
+                passwordHistoryValueText: _currentVault.PasswordHistory?.ToString()
+            ); 
+
         }
     }
 }

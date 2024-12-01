@@ -47,7 +47,7 @@
             _mainGroup = mainGroup;
         }
 
-        public void ConfigureForViewVault(bool hasPasswordHistory, string passwordHistoryValueText)
+        public void ConfigureForViewLoginTypeVault(bool hasPasswordHistory, string passwordHistoryValueText)
         {
             _lastUpdatedGroupBox.Top = 0;
             _lastUpdatedGroupBox.Left = 0;
@@ -77,7 +77,6 @@
 
             PositionGroupBoxBelowLastUserControl(_lastUpdatedGroupBox, 30);
         }
-
 
         public void ConfigureForCreateVault()
         {
@@ -152,7 +151,6 @@
             _mainPanel.PerformLayout();
         }
 
-
         private void ConfigureButtons(bool showSave, bool showEdit, bool showDuplicate)
         {
             _saveButton.Visible = showSave;
@@ -172,6 +170,7 @@
                 _saveIcon.Location = _editIcon.Location;
             }
         }
+
         private void PositionGroupBoxBelowLastUserControl(Control groupBox, int offset)
         {
             var lastUserControl = _mainPanel.Controls
@@ -192,6 +191,4 @@
             }
         }
     }
-
-
 }

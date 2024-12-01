@@ -4,6 +4,7 @@
     {
         public const int DefaultHeight = 212;
         public const int RowHeightReduction = 68;
+        public const int SecureNotePositionY = 238;
 
         public static readonly Point UsernameLabelPosition = new Point(14, 77);
         public static readonly Point UsernameInputPosition = new Point(14, 97);
