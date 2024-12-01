@@ -55,8 +55,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewSecureNoteUserControl));
             notes_label = new Label();
             notes_input = new RichTextBox();
+            secure_note_copy_button = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)secure_note_copy_button).BeginInit();
             SuspendLayout();
             // 
             // notes_label
@@ -72,21 +75,37 @@
             // 
             // notes_input
             // 
+            notes_input.BackColor = Color.White;
             notes_input.BorderStyle = BorderStyle.None;
             notes_input.Location = new Point(3, 44);
             notes_input.Name = "notes_input";
+            notes_input.ReadOnly = true;
             notes_input.Size = new Size(506, 314);
             notes_input.TabIndex = 2;
             notes_input.Text = "";
+            // 
+            // secure_note_copy_button
+            // 
+            secure_note_copy_button.BackColor = Color.White;
+            secure_note_copy_button.BackgroundImage = (Image)resources.GetObject("secure_note_copy_button.BackgroundImage");
+            secure_note_copy_button.BackgroundImageLayout = ImageLayout.Stretch;
+            secure_note_copy_button.Location = new Point(481, 53);
+            secure_note_copy_button.Name = "secure_note_copy_button";
+            secure_note_copy_button.Size = new Size(23, 23);
+            secure_note_copy_button.TabIndex = 7;
+            secure_note_copy_button.TabStop = false;
+            secure_note_copy_button.Click += secure_note_copy_button_Click;
             // 
             // ViewSecureNoteUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(secure_note_copy_button);
             Controls.Add(notes_label);
             Controls.Add(notes_input);
             Name = "ViewSecureNoteUserControl";
             Size = new Size(512, 366);
+            ((System.ComponentModel.ISupportInitialize)secure_note_copy_button).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -95,5 +114,6 @@
 
         private Label notes_label;
         private RichTextBox notes_input;
+        private PictureBox secure_note_copy_button;
     }
 }

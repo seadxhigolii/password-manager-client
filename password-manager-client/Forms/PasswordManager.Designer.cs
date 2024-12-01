@@ -98,7 +98,7 @@ namespace password_manager_client
             // 
             // panel1
             // 
-            panel1.BackColor = Color.Blue;
+            panel1.BackColor = Color.FromArgb(0, 102, 203);
             panel1.Controls.Add(searchBox);
             panel1.Location = new Point(-1, -1);
             panel1.Name = "panel1";
