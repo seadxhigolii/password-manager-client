@@ -24,6 +24,7 @@ namespace password_manager_client
         private readonly EditVaultWebsiteUserControl _editVaultWebsiteUserControl;
         private readonly CreateVaultWebsiteUserControl _createVaultWebsiteUserControl;
         private readonly CreateSecureNoteUserControl _createSecureNoteUserControl;
+        private readonly EditSecureNoteUserControl _editSecureNoteUserControl;
         private readonly ViewSecureNoteUserControl _viewSecureNoteUserControl;
         private UserControl _activeUserControl;
         private Vault _currentVault;
@@ -41,6 +42,7 @@ namespace password_manager_client
             _createVaultWebsiteUserControl = new CreateVaultWebsiteUserControl();
             _createSecureNoteUserControl = new CreateSecureNoteUserControl();
             _viewSecureNoteUserControl = new ViewSecureNoteUserControl();
+            _editSecureNoteUserControl = new EditSecureNoteUserControl();
 
             _uiManager = new UIManager(
                 mainPanel,
@@ -103,6 +105,7 @@ namespace password_manager_client
 
             if (vaultData.Data != null)
             {
+                _currentVault = vaultData.Data;
                 switch (vaultData.Data.ItemType)
                 {
                     case Enum.VaultItemTypeEnum.Password:
@@ -147,19 +150,46 @@ namespace password_manager_client
 
         private void edit_button_Click(object sender, EventArgs e)
         {
-            _editVaultUserControl.NameInput = _viewVaultUserControl.NameInput;
-            _editVaultUserControl.UsernameInput = _viewVaultUserControl.UsernameInput;
-            _editVaultUserControl.PasswordInput = _viewVaultUserControl.PasswordInput;
-            _editVaultWebsiteUserControl.WebsiteInput = _viewVaultWebsiteUserControl.WebsiteInput;
+            switch (_currentVault.ItemType)
+            {
+                case Enum.VaultItemTypeEnum.Password:
+                    _editVaultUserControl.NameInput = _viewVaultUserControl.NameInput;
+                    _editVaultUserControl.UsernameInput = _viewVaultUserControl.UsernameInput;
+                    _editVaultUserControl.PasswordInput = _viewVaultUserControl.PasswordInput;
+                    _editVaultWebsiteUserControl.WebsiteInput = _viewVaultWebsiteUserControl.WebsiteInput;
 
-            _uiManager.ResetToMainView();
-            _uiManager.SetActiveUserControl(ref _activeUserControl, _editVaultUserControl);
-            _uiManager.ConfigureForEditVault();
-            _uiManager.LoadUserControl(_editVaultUserControl, 50);
-            _uiManager.LoadUserControl(_editVaultWebsiteUserControl, 60 + _editVaultUserControl.Height + 20);
-            item_information_label.Visible = true;
-            item_information_label.Text = "EDIT ITEM";
-            last_updated_groupbox.Visible = true;
+                    _uiManager.ResetToMainView();
+                    _uiManager.SetActiveUserControl(ref _activeUserControl, _editVaultUserControl);
+                    _uiManager.ConfigureForEditVault();
+                    _uiManager.LoadUserControl(_editVaultUserControl, 50);
+                    _uiManager.LoadUserControl(_editVaultWebsiteUserControl, 60 + _editVaultUserControl.Height + 20);
+                    item_information_label.Visible = true;
+                    item_information_label.Text = "EDIT ITEM";
+                    last_updated_groupbox.Visible = true;
+                    break;
+                case Enum.VaultItemTypeEnum.SecureNote:
+                    _editVaultUserControl.NameInput = _currentVault.Title;
+
+                    _viewVaultUserControl.UsernameInput = !string.IsNullOrEmpty(_currentVault.Username) ? _currentVault.Username : null;
+                    _viewVaultUserControl.PasswordInput = !string.IsNullOrEmpty(_currentVault.EncryptedPassword) ? DecryptionHelper.Decrypt(_currentVault.EncryptedPassword) : null;
+
+                    _uiManager.ResetToMainView();
+                    _uiManager.SetActiveUserControl(ref _activeUserControl, _editVaultUserControl);
+                    _uiManager.ConfigureForEditVault();
+                    _uiManager.LoadUserControl(_editVaultUserControl, 50);
+                    _uiManager.LoadUserControl(_editSecureNoteUserControl, 60 + _editVaultUserControl.Height + 20);
+                    _editSecureNoteUserControl.NotesInputText = !string.IsNullOrEmpty(_currentVault.EncryptedNotes) ? DecryptionHelper.Decrypt(_currentVault.EncryptedNotes) : null;
+
+                    item_information_label.Visible = true;
+                    item_information_label.Text = "EDIT ITEM";
+                    last_updated_groupbox.Visible = true;
+
+                    break;
+                case Enum.VaultItemTypeEnum.BankCard:
+                    break;
+                default:
+                    break;
+            }         
         }
 
         private async void save_button_Click(object sender, EventArgs e)

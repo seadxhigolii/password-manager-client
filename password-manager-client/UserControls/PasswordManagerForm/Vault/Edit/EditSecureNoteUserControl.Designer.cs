@@ -19,6 +19,31 @@
             }
             base.Dispose(disposing);
         }
+        #region Publicly Accessible Elements
+        public string NotesLabelText
+        {
+            get => notes_label.Text;
+            set => notes_label.Text = value;
+        }
+
+        public bool NotesLabelVisible
+        {
+            get => notes_label.Visible;
+            set => notes_label.Visible = value;
+        }
+
+        public string NotesInputText
+        {
+            get => notes_input.Text;
+            set => notes_input.Text = value;
+        }
+        public bool NotesInputVisible
+        {
+            get => notes_input.Visible;
+            set => notes_input.Visible = value;
+        }
+
+        #endregion
 
         #region Component Designer generated code
 
